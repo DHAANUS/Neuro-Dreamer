@@ -18,4 +18,4 @@ class Encoder(nn.Module):
         activation
     )
   def forward(self, x):
-    return self.network(x)
+    return self.network(x).view(-1, self.outputsize)
