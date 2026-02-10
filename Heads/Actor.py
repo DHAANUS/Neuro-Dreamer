@@ -1,12 +1,17 @@
+import torch
+import torch.nn as nn
+from torch.distributions import OneHotCategorical
 class Actor(nn.Module):
-  def __init__(self, inputsize, actionspace, activation):
+  def __init__(self, latent_classes, latent_length, deterministic_size, actionspace, activation, hidden_size, layer_size):
     super().__init__()
-    self.device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
-    self.network = build_network(
+    self.latent_size = latent_classes+latent_length
+    inputsize = deterministic_size+self.latent_size
+    self.network = build_nn(
         inputsize,
+        hidden_size,
+        layer_size,
         actionspace,
-        activation,
-        16*16
+        activation
     )
   def forward(self, x):
-    return torch.distributions.OneHotCategorical(logits=self.network(x))
+    return OneHotCategorical(logits=self.network(x))
