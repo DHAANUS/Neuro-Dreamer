@@ -1,14 +1,16 @@
 class Critic(nn.Module):
-  def __init__(self, inputsize, activation):
+  def __init__(self, latent_classes, latent_length, deterministic_size, activation, hidden_size, layer_size):
     super().__init__()
-    self.device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
-    self.network = build_network(
+    self.latent_size = latent_classes*latent_length
+    inputsize = deterministic_size+self.latent_size
+    self.network = build_nn(
         inputsize,
+        hidden_size,
+        layer_size,
         2,
-        activation,
-        16*16
+        activation
     )
   def forward(self,x):
     mean, logstd = self.network(x).chunk(2, dim=-1)
     std = torch.exp(logstd)
-    return torch.distributions.normal(mean.squeezq(-1), std.squeeze(-1))
+    return torch.distributions.Normal(mean.squeeze(-1), std.squeeze(-1))
