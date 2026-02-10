@@ -11,6 +11,5 @@ class ContinueModel(nn.Module):
     self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     self.network = build_nn(self.inputsize, self.hidden_size,self.layer_size ,1, activation)
 
-
   def forward(self, x):
     return torch.distributions.Bernoulli(logits=self.network(x))
