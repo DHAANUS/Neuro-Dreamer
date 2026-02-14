@@ -1,12 +1,12 @@
 
 class Recurrent_model(nn.Module):
-  def __init__(self, action_dim, latent_classes, latent_length, deterministic_size, activation):
+  def __init__(self, action_dim, stochasticSize, deterministic_size, config):
     super().__init__()
     # self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     self.action_dim = action_dim
     self.deterministic_size = deterministic_size
-    self.stochastic_size = latent_length*latent_classes
-    self.activation = activation
+    self.stochasticSize = stochasticSize
+    self.activation = config.dreamer.recurrentModel.activation
 
     self.linear = nn.Linear(
         self.action_dim+self.stochastic_size, 200
@@ -20,22 +20,22 @@ class Recurrent_model(nn.Module):
     return x
 
 class Prior(nn.Module):
-  def __init__(self,hidden_size, layers_size, deterministic_size,latent_length, latent_classes, activation):
+  def __init__(self, deterministic_size, latent_length, latent_classes, config):
     super().__init__()
-    self.device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
+    self.config = config
     self.latent_length = latent_length
     self.latent_class = latent_classes
-    self.latent_size = latent_classes*latent_length
-    self.activation = activation
+    self.stochasticSize = latent_classes*latent_length
+    self.activation = config.dreamer.prior.activation
     self.deterministic_size = deterministic_size
 
-    self.layers_size = layers_size
-    self.hidden_size = hidden_size
+    self.layers_size = config.dreamer.prior.hiddenLayers
+    self.hidden_size = config.dreamer.prior.hiddenSize
     self.network = build_nn(
         self.deterministic_size,
         self.hidden_size,
         self.layers_size,
-        self.latent_size,
+        self.stochasticSize,
         activation = self.activation
     )
 
@@ -50,26 +50,24 @@ class Prior(nn.Module):
 
 
 class Posterior(nn.Module):
-  def __init__(self,layers_size,hidden_size, deterministic_size,latent_length, latent_classes, activation, obs_size):
+  def __init__(self, inputSize, latent_length, latent_classes, config):
     super().__init__()
-    self.device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
+    self.config = config
     self.latent_length = latent_length
     self.latent_class = latent_classes
     self.latent_size = latent_classes*latent_length
-    self.activation = activation
-    self.deterministic_size = deterministic_size
-    self.obs_size = obs_size
+    self.inputSize = inputSize
 
 
-    self.layers_size = layers_size
-    self.hidden_size = hidden_size
+    self.layers_size = config.dreamer.posterior.hiddenLayers
+    self.hidden_size = config.dreamer.posterior.hiddenSize
     self.network = build_nn(
-        self.deterministic_size+self.obs_size,
-        hidden_size,
-        layers_size,
+        self.inputSize,
+        self.hidden_size,
+        self.layers_size,
         self.latent_size,
-        activation = self.activation
-    )
+        activation = self.config.dreamer.posterior.activation
+        )
 
   def forward(self, x):
       # x = torch.cat((deterministic, obs), 1)
