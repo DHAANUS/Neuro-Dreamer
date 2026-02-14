@@ -1,11 +1,9 @@
 class RewardModel(nn.Module):
-  def __init__(self, latent_length, latent_classes, deterministic_size, activation, hidden_size, hidden_dim):
+  def __init__(self,inputSize, config):
     super().__init__()
-    self.latent_size = latent_length*latent_classes
-    self.input_size = deterministic_size+self.latent_size
-    self.activation = activation
+    self.input_size = inputSize
     self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    self.network = build_nn(self.inputsize, self.hidden_size,self.layer_size ,2, activation)
+    self.network = build_nn(self.inputsize, config.dreamer.rewardModel.hiddenSize,config.dreamer.rewardModel.hiddenLayers ,2, config.dreamer.rewardModel.activation)
 
   def forward(self, x):
     out = self.network(x)
