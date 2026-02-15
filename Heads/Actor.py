@@ -1,19 +1,20 @@
-from math import tau
 import torch
 import torch.nn as nn
 from torch.distributions import OneHotCategorical
 from torch.nn import functional as F
 class Actor(nn.Module):
-  def __init__(self, latent_classes, latent_length, deterministic_size, actionspace, activation, hidden_size, layer_size):
+  def __init__(self,  inputsize,actionspace, config):
     super().__init__()
-    self.latent_size = latent_classes*latent_length
-    inputsize = deterministic_size+self.latent_size
+    self.config = config.dreamer.actorModel
+    self.inputsize = inputsize
+    self.hidden_size = config.hiddenSize
+    self.layer_size = config.hiddenLayers
     self.network = build_nn(
         inputsize,
-        hidden_size,
-        layer_size,
+        self.hidden_size,
+        self.layer_size,
         actionspace,
-        activation
+        self.config.activation
     )
   def forward(self, x, tau,training=False):
     logits = self.network(x)
