@@ -1,12 +1,15 @@
+import torch
+import torch.nn as nn
+from torch.distributions import Normal
 class Critic(nn.Module):
-  def __init__(self, latent_classes, latent_length, deterministic_size, activation, hidden_size, layer_size):
+  def __init__(self, inputsize, config):
     super().__init__()
-    self.latent_size = latent_classes*latent_length
-    inputsize = deterministic_size+self.latent_size
+    self.config = config.dreamer.criticModel
+    self.inputsize = inputsize
     self.network = build_nn(
         inputsize,
-        hidden_size,
-        layer_size,
+        self.config.hiddenSize,
+        self.config.hiddenLayers,
         2,
         activation
     )
