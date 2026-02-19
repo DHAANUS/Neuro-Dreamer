@@ -1,3 +1,6 @@
+import torch
+from torch.distributions import Bernoulli
+import torch.nn as nn
 class ContinueModel(nn.Module):
   def __init__(self,  inputsize, config):
     super().__init__()
@@ -6,7 +9,7 @@ class ContinueModel(nn.Module):
     self.network = build_nn(self.input_size,
                             self.config.hiddenSize,
                             self.config.hiddenLayers,
-                            1, 
+                            1,
                             self.config.activation)
 
   def forward(self, x):
