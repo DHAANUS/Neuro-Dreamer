@@ -19,6 +19,7 @@ class LoadCheckpoints(nn.Module):
     self.actorOptimizer = behaviour.actorOptimizer
     self.criticOptimizer = behaviour.criticOptimizer
     self.envinter = envinter
+    self.totalGradientSteps = core.totalGradientSteps
 
 
   def loadCheckPoint(self, checkpointPath):

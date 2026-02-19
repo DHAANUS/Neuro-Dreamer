@@ -21,8 +21,8 @@ class EnvironmentInteraction(nn.Module):
       self.actor = core.actor
 
       self.buffer = core.buffer
-      self.totalEpisodes = 0
-      self.totalEnvSteps = 0
+      self.totalEpisodes = core.totalEpisodes
+      self.totalEnvSteps = core.totalEnvSteps
 
   @torch.no_grad()
   def envInteraction(self, env, numEpisodes, seed=None, evaluation=False, savideo=False, fileName='videos/testvideo',fps=30, macroBlockSize=16):
@@ -70,7 +70,7 @@ class EnvironmentInteraction(nn.Module):
             with imageio.get_writer(finalFilename, fps=fps) as video:
               for frame in frames:
                 video.append_data(frame)
-             
+
           break
     return sum(scores)/numEpisodes if numEpisodes else None
 

@@ -64,5 +64,7 @@ class CentralInitialization(nn.Module):
                                  list(self.reward.parameters()))
     if self.config.dreamer.useContinuationPred:
       self.worldmodelParameters += list(self.continueModel.parameters())
-
+    self.totalEpisodes = 0
+    self.totalEnvSteps = 0
+    self.totalGradientSteps = 0
 
