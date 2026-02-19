@@ -25,7 +25,7 @@ class EnvironmentInteraction(nn.Module):
       self.totalEnvSteps = core.totalEnvSteps
 
   @torch.no_grad()
-  def envInteraction(self, env, numEpisodes, seed=None, evaluation=False, savideo=False, fileName='videos/testvideo',fps=30, macroBlockSize=16):
+  def envInteraction(self, env, numEpisodes, seed=None, evaluation=False, savevideo=False, fileName='videos/testvideo',fps=30, macroBlockSize=16):
     scores = []
     for i in range(numEpisodes):
       recurrentState = torch.zeros(1, self.recurrentSize, device=self.device)
@@ -50,7 +50,7 @@ class EnvironmentInteraction(nn.Module):
           one_hot = np.zeros(self.action_size , dtype=np.float32)
           one_hot[actionindex] = 1.0
           self.buffer.add(observation, one_hot, reward, nextObservation, done)
-        if savideo and i == 0:
+        if savevideo and i == 0:
           frame = env.render()
           targetheight = (frame.shape[0] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
           targetwidth = (frame.shape[1] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
@@ -67,7 +67,7 @@ class EnvironmentInteraction(nn.Module):
             self.totalEpisodes += 1
             self.totalEnvSteps += stepCount
 
-          if savideo and i == 0:
+          if savevideo and i == 0:
             finalFilename = f'{fileName} _reward_{currScore:.0f}.mp4'
             with imageio.get_writer(finalFilename, fps=fps) as video:
               for frame in frames:
