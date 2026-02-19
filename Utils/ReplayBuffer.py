@@ -33,7 +33,7 @@ class ReplayBuffer(object):
   def sample(self, batchSize, sequenceSize):
     validStart = self.bufferindex - sequenceSize + 1
     assert self.full or (batchSize<validStart), "Not Enough Data in the Buffer to Sample bro"
-    sampleindex = np.random.randint(0, self.capacity if self.full else validStart, batchSize).reshape(-1,1)
+    sampleIndex = np.random.randint(0, self.capacity if self.full else validStart, batchSize).reshape(-1,1)
     sequenceLength = np.arange(sequenceSize).reshape(1, -1)
 
     sampleIndex = (sampleIndex+sequenceLength)%self.capacity
