@@ -1,0 +1,97 @@
+envname: SuperMarioBros-v2
+run_name: SuperMarioBrosNes
+seed: 1
+
+gradient_steps: 60000
+replay_ratio: 100
+saveMetrics: True
+saveCheckpoints: True
+checkpointInterval: 2000
+resume: False
+checkpointLoad: 50k
+
+episodedbeforestart: 5
+numInteractionPerEpisode: 1
+numEvaluationPerEpisode: 1
+
+dreamer:
+    batchsize: 32
+    batchlength: 64
+    imaginehorizon: 15
+
+    recurrentSize: 512
+    latentlength: 16
+    latentclasses: 5
+    encodedObjSize: 1024
+
+    useContinuationPred: False
+    actorLR: 0.00004
+    criticLR: 0.0001
+    worldmodelLR: 0.0002
+    gradientNormType: 2
+    gradienClip: 100
+
+    discount: 0.996
+    lambda: 0.95
+    freeNats: 1
+    betaPrior: 1.0
+    betaPosterior: 0.1
+    entropyScale: 0.0003
+
+    buffer:
+        capacity: 50000
+
+    encoder:
+        depth: 16
+        stride: 2
+        kernelSize: 4
+        activation: Tanh
+
+    decoder:
+        depth: 16
+        stride: 2
+        kernelSize: 4
+        activation: Tanh
+
+    recurrentModel:
+        hiddenSize: 200
+        activation: Tanh
+
+    priorModel:
+        hiddenSize: 200
+        hiddenLayers: 2
+        activation: Tanh
+        uniformMix: 0.01
+
+    posterior:
+        hiddenSize: 200
+        hiddenLayers: 2
+        activation: Tanh
+        uniformMix: 0.01
+
+    rewardModel:
+        hiddenSize: 400
+        hiddenLayers: 2
+        activation: Tanh
+
+    continuationModel:
+        hiddenSize: 400
+        hiddenLayers: 3
+        activation: Tanh
+
+    actorModel:
+        hiddenSize: 400
+        hiddenLayers: 2
+        tau: 1.0
+        activation: Tanh
+
+    criticModel:
+        hiddenSize: 400
+        hiddenLayers: 3
+        activation: Tanh
+
+folderName:
+    metricFolder: metrics
+    plotsfolder: plots
+    checkpointFolder: checkpoints
+    videoFolder: videos
