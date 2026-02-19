@@ -47,7 +47,9 @@ class EnvironmentInteraction(nn.Module):
         nextObservation, reward, done = env.step(actionindex)
 
         if not evaluation:
-          self.buffer.add(observation, actionindex, reward, nextObservation, done)
+          one_hot = np.zeros(self.action_size , dtype=np.float32)
+          one_hot[actionindex] = 1.0
+          self.buffer.add(observation, one_hot, reward, nextObservation, done)
         if savideo and i == 0:
           frame = env.render()
           targetheight = (frame.shape[0] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
