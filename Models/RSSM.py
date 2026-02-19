@@ -1,4 +1,7 @@
 
+import torch
+import torch.nn as nn
+from torch.distributions import Normal
 class Recurrent_model(nn.Module):
   def __init__(self, action_dim, stochasticSize, deterministic_size, config):
     super().__init__()
