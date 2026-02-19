@@ -18,6 +18,9 @@ class Savingcheckpoints(nn.Module):
     self.actorOptimizer = behaviour.actorOptimizer
     self.criticOptimizer = behaviour.criticOptimizer
     self.envinter = envinter
+    self.totalGradientSteps = core.totalGradientSteps
+    self.totalEnvSteps = core.totalEnvSteps
+    self.totalEpisodes = core.totalEpisodes
 
   def saveCheckpoint(self, checkpointPath, totalGradientSteps):
     if not checkpointPath.endswith('.pth'):
@@ -35,9 +38,9 @@ class Savingcheckpoints(nn.Module):
         'worldmodelOptimizer': self.worldmodelOptimizer.state_dict(),
         'criticOptimizer': self.criticOptimizer.state_dict(),
         'actorOptimizer': self.actorOptimizer.state_dict(),
-        'totalEpisodes': self.envinter.totalEpisodes,
-        'totalEnvSteps': self.envinter.totalEnvSteps,
-        'totalGradientSteps': totalGradientSteps
+        'totalEpisodes': self.totalEpisodes,
+        'totalEnvSteps': self.totalEnvSteps,
+        'totalGradientSteps': self.totalGradientSteps
     }
     if self.config.dreamer.useContinuationPred:
       checkpoint['continueModel'] = self.continueModel.state_dict()
