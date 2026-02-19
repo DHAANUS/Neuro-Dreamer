@@ -1,3 +1,7 @@
+
+import torch
+from torch.distributions import Bernoulli
+import torch.nn as nn
 class RewardModel(nn.Module):
   def __init__(self,inputSize, config):
     super().__init__()
