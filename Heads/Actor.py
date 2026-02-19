@@ -24,11 +24,9 @@ class Actor(nn.Module):
       action = F.gumbel_softmax(logits,
                                 tau=tau,
                                 hard=True)
-      action_index = action.argmax(dim=-1)
+
     else:
       action = dist.sample()
-      action_index = action.argmax(dim=-1)
-
-    log_prob = dist.log_prob(action_index)
+    log_prob = dist.log_prob(action)
     entropy = dist.entropy()
     return action, log_prob, entropy, logits
