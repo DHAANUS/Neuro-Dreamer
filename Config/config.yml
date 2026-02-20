@@ -29,7 +29,7 @@ dreamer:
     criticLR: 0.0001
     worldmodelLR: 0.0002
     gradientNormType: 2
-    gradienClip: 100
+    gradientClip: 100
 
     discount: 0.996
     lambda_: 0.95
