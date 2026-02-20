@@ -35,7 +35,7 @@ class CentralInitialization(nn.Module):
                            config.dreamer.decoder.activation,
                            config).to(self.device)
 
-    self.recurrentModel = Recurrent_Model(action_size,
+    self.recurrentModel = Recurrent_model(action_size,
                                           self.latentsize,
                                           self.recurrentSize,
                                           config).to(self.device)
