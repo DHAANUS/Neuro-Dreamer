@@ -39,7 +39,7 @@ def main(configFile):
   enveval = envWrapper(envPreproccessing(
       gym.wrappers.ResizeObservation(base_enveval, (64, 64))))
 
-  observation_shape , action_size = getEnvProperties(env)
+  observation_shape , action_size = getEnvinfo(env)
 
   print(f'Observation shape: {observation_shape}', f'Action size: {action_size}')
 
