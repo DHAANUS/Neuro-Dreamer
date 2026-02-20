@@ -26,9 +26,9 @@ class WorldModel(nn.Module):
     self.worldmodelOptimizer = torch.optim.Adam(self.worldmodelParameters, lr=self.config.dreamer.worldmodelLR)
 
   def train_world(self, data):
-    encodedObs = self.encoder(data.observations.view(-1, *self.observation_shape)).view(self.config.dreamer.batchSize, self.config.batchlength, -1)
-    previousRecurrentState = torch.zeros(self.config.dreamer.batchSize, self.recurrentSize, device=self.device)
-    previousLatentState = torch.zeros(self.config.dreamer.batchSize, self.latentsize, device=self.device)
+    encodedObs = self.encoder(data.observations.view(-1, *self.observation_shape)).view(self.config.dreamer.batchsize, self.config.dreamer.batchlength, -1)
+    previousRecurrentState = torch.zeros(self.config.dreamer.batchsize, self.recurrentSize, device=self.device)
+    previousLatentState = torch.zeros(self.config.dreamer.batchsize, self.latentsize, device=self.device)
 
     recurrentStates, priorLogits, posteriors, posteriorLogits = [], [], [], []
     for i in range(1, self.config.dreamer.batchlength):
@@ -51,7 +51,7 @@ class WorldModel(nn.Module):
 
     fullstates = torch.cat((recurrentStates, posteriors), dim=-1)
 
-    reconstructionMean = self.decoder(fullstates.view(-1, self.fullStateSize)).view(self.config.dreamer.batchSize, self.config.dreamer.batchlength-1, *self.observation_shape)
+    reconstructionMean = self.decoder(fullstates.view(-1, self.fullStateSize)).view(self.config.dreamer.batchsize, self.config.dreamer.batchlength-1, *self.observation_shape)
     reconstructiondist = Independent(Normal(reconstructionMean, 1), len(self.observation_shape))
     reconstructionLoss = -reconstructiondist.log_prob(data.observations[:, 1:]).mean()
 
