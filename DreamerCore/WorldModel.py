@@ -27,8 +27,8 @@ class WorldModel(nn.Module):
 
   def train_world(self, data):
     encodedObs = self.encoder(data.observations.view(-1, *self.observation_shape)).view(self.config.dreamer.batchSize, self.config.batchlength, -1)
-    previousRecurrentState = torch.zeros(self.config.batchSize, self.recurrentSize, device=self.device)
-    previousLatentState = torch.zeros(self.config.batchSize, self.latentsize, device=self.device)
+    previousRecurrentState = torch.zeros(self.config.dreamer.batchSize, self.recurrentSize, device=self.device)
+    previousLatentState = torch.zeros(self.config.dreamer.batchSize, self.latentsize, device=self.device)
 
     recurrentStates, priorLogits, posteriors, posteriorLogits = [], [], [], []
     for i in range(1, self.config.batchlength):
