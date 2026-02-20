@@ -9,8 +9,8 @@ class Actor(nn.Module):
     super().__init__()
     self.config = config.dreamer.actorModel
     self.inputsize = inputsize
-    self.hidden_size = config.hiddenSize
-    self.layer_size = config.hiddenLayers
+    self.hidden_size = self.config.hiddenSize
+    self.layer_size = self.config.hiddenLayers
     self.network = build_nn(
         inputsize,
         self.hidden_size,
