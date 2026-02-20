@@ -1,21 +1,23 @@
 
 import torch
 import torch.nn as nn
+from Utils.Utils import get_activation
 class Decoder(nn.Module):
-  def __init__(self, inputsize, outputshape, activation):
+  def __init__(self, inputsize, outputshape, activation, config):
     super().__init__()
     self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     self.channels, self.height, self.width = outputshape
+    self.activation = get_activation(activation)
     self.network = nn.Sequential(
         nn.Linear(inputsize, 512),
         nn.Unflatten(1, (512, 1)),
         nn.Unflatten(2, (1, 1)),
         nn.ConvTranspose2d(512, 64, kernel_size=4, stride=2),
-        activation,
+        self.activation,
         nn.ConvTranspose2d(64, 32, kernel_size=4, stride=2),
-        activation,
+        self.activation,
         nn.ConvTranspose2d(32, 16, kernel_size=4+1, stride=2),
-        activation,
+        self.activation,
         nn.ConvTranspose2d(16, self.channels, kernel_size=4+1, stride=2),
     )
   def forward(self,x):
