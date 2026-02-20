@@ -25,7 +25,7 @@ def main(configFile):
   runName = f'{config.envname}_{config.run_name}'
   checkpointLoad = os.path.join(config.folderName.checkpointFolder, f'{runName}_{config.checkpointLoad}')
   metricsFilename = os.path.join(config.folderName.metricFolder, runName)
-  plotFilename = os.path.join(config.folderName.plotsFolder, runName)
+  plotFilename = os.path.join(config.folderName.plotsfolder, runName)
   checkpointFilenameBase = os.path.join(config.folderName.checkpointFolder, runName)
   videoFilenameBase = os.path.join(config.folderName.videoFolder, runName)
 
