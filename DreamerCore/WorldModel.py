@@ -31,7 +31,7 @@ class WorldModel(nn.Module):
     previousLatentState = torch.zeros(self.config.dreamer.batchSize, self.latentsize, device=self.device)
 
     recurrentStates, priorLogits, posteriors, posteriorLogits = [], [], [], []
-    for i in range(1, self.config.batchlength):
+    for i in range(1, self.config.dreamer.batchlength):
       recurrentState = self.recurrentModel(previousRecurrentState, previousLatentState, data.actions[:,  i-1])
       _, priorLogit = self.prior(recurrentState)
       posterior, posteriorLogit = self.posterior(torch.cat((recurrentState, encodedObs[:, i]), -1))
@@ -41,8 +41,8 @@ class WorldModel(nn.Module):
       posteriors.append(posterior)
       posteriorLogits.append(posteriorLogit)
 
-      previousRecurrentState = recurrentState
-      previousLatentState = posterior
+      previousRecurrentState = recurrentState.detach()
+      previousLatentState = posterior.detach()
 
     recurrentStates = torch.stack(recurrentStates, dim=1)
     priorLogits = torch.stack(priorLogits, dim=1)
