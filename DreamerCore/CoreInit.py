@@ -2,7 +2,7 @@
 import torch
 import torch.nn as nn
 
-from Models.RSSM import Recurrent_Model, Prior, Posterior
+from Models.RSSM import Recurrent_model, Prior, Posterior
 from Models.Encoder import Encoder
 from Models.Decoder import Decoder
 
