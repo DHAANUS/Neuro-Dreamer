@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 from torch.distributions import Normal
 from Utils.Utils import build_nn
+from Utils.Utils import get_activation
 class Recurrent_model(nn.Module):
   def __init__(self, action_dim, stochasticSize, deterministic_size, config):
     super().__init__()
