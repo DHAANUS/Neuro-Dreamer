@@ -30,7 +30,7 @@ class Prior(nn.Module):
     self.latent_length = latent_length
     self.latent_class = latent_classes
     self.stochasticSize = latent_classes*latent_length
-    self.activation = config.dreamer.prior.activation
+    self.activation = config.dreamer.priorModel.activation
     self.deterministic_size = deterministic_size
 
     self.layers_size = config.dreamer.prior.hiddenLayers
