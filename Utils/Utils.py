@@ -16,7 +16,6 @@ import plotly.graph_objects as pgo
 
 def seeding(seed):
   random.seed(seed)
-  np.random_seed(seed)
   torch.manual_seed(seed)
   torch.backends.cudnn.deterministic = True
 
@@ -58,7 +57,7 @@ def plotMetrics(filename, title='', savePath='metricsPlot', window=10):
     if column in ['envSteps, gradientSteps']:
       continue
     fig.add_trace(pgo.Scatter(
-        x=data['gradientSteps'], 
+        x=data['gradientSteps'],
         y=data[column],
         mode='lines',
         name=f'{column} (original)',
@@ -96,7 +95,7 @@ def plotMetrics(filename, title='', savePath='metricsPlot', window=10):
                     bordercolor='white',
                     borderwidth=2,
                     font=dict(size=12)
-                    )   
+                    )
   )
   if not savePath.endswith('.html'):
     savePath += '.html'
