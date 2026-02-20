@@ -13,7 +13,7 @@ class envPreproccessing(gym.ObservationWrapper):
     super().__init__(env)
     h, w, c = self.observation_space.shape
     self.observation_space = gym.spaces.Box(low=0, high=1, shape=(h, w, c), dtype=np.float32)
-  
+
   def observation(self, obs):
     observation = np.transpose(obs, (2, 0, 1))/255.0
     return observation
@@ -23,11 +23,11 @@ class envWrapper(gym.Wrapper):
     super().__init__(env)
 
   def step(self, action):
-    obs, reward, terminated, truncated, info = self.env.step(action)
-    done = terminated or truncated
+    obs, reward, done, info = self.env.step(action)
+    # done = terminated or truncated
     return obs, reward, done
-  
+
   def reset(self, seed=None):
     obs, info = self.env.reset(seed=seed)
     return obs
-    
+
