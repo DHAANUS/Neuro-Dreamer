@@ -2,6 +2,8 @@
 import torch
 from torch.distributions import Bernoulli
 import torch.nn as nn
+from Utils.Utils import build_nn
+
 class ContinueModel(nn.Module):
   def __init__(self,  inputsize, config):
     super().__init__()

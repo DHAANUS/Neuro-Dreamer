@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 from torch.distributions import Normal
+from Utils.Utils import build_nn
+
 class Critic(nn.Module):
   def __init__(self, inputsize, config):
     super().__init__()
@@ -11,7 +13,7 @@ class Critic(nn.Module):
         self.config.hiddenSize,
         self.config.hiddenLayers,
         2,
-        activation
+        self.config.activation
     )
   def forward(self,x):
     mean, logstd = self.network(x).chunk(2, dim=-1)

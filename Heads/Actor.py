@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from torch.distributions import OneHotCategorical
 from torch.nn import functional as F
+from Utils.Utils import build_nn
+
 class Actor(nn.Module):
   def __init__(self,  inputsize,actionspace, config):
     super().__init__()
