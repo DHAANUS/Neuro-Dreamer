@@ -9,7 +9,7 @@ from gym_super_mario_bros.actions import RIGHT_ONLY
 
 
 from Utils.Utils import seeding, loadConfig, ensureParentFile, saveLoss, plotMetrics
-from EnvProperties.env import envWrapper, envPreproccessing, getEnvProperties
+from EnvProperties.env import envWrapper, envPreproccessing, getEnvinfo
 from DreamerCore.CentralInitialization import CentralInitialization
 from DreamerCore.WorldModel import WorldModel
 from DreamerCore.BehaviourModel import BehaviorModel
