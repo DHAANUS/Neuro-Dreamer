@@ -32,7 +32,7 @@ dreamer:
     gradienClip: 100
 
     discount: 0.996
-    lambda: 0.95
+    lambda_: 0.95
     freeNats: 1
     betaPrior: 1.0
     betaPosterior: 0.1
