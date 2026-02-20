@@ -13,7 +13,7 @@ class Recurrent_model(nn.Module):
     self.activation = config.dreamer.recurrentModel.activation
 
     self.linear = nn.Linear(
-        self.action_dim+self.stochastic_size, 200
+        self.action_dim+self.stochasticSize, 200
     )
     self.recurrent = nn.GRUCell(200, deterministic_size)
 
