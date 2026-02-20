@@ -12,7 +12,7 @@ class envPreproccessing(gym.ObservationWrapper):
   def __init__(self, env):
     super().__init__(env)
     h, w, c = self.observation_space.shape
-    self.observation_space = gym.spaces.Box(low=0, high=1, shape=(h, w, c), dtype=np.float32)
+    self.observation_space = gym.spaces.Box(low=0, high=1, shape=(c ,h, w), dtype=np.float32)
 
   def observation(self, obs):
     observation = np.transpose(obs, (2, 0, 1))/255.0
