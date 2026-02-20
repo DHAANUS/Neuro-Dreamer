@@ -16,6 +16,7 @@ import plotly.graph_objects as pgo
 
 def seeding(seed):
   random.seed(seed)
+  np.random.seed(seed)
   torch.manual_seed(seed)
   torch.backends.cudnn.deterministic = True
 
