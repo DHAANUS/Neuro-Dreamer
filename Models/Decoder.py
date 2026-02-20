@@ -9,8 +9,8 @@ class Decoder(nn.Module):
     self.channels, self.height, self.width = outputshape
     self.activation = get_activation(activation)
     self.network = nn.Sequential(
-        nn.Linear(inputsize, config.dreamer.decoder.depth*32),
-        nn.Unflatten(1, (config.dreamer.decoder.depth*32 , 1)),
+        nn.Linear(inputsize, config.dreamer.decoder.depth*32*2*2),
+        nn.Unflatten(1, (config.dreamer.decoder.depth*32 , 2, 2)),
         nn.Unflatten(2, (1, 1)),
         nn.ConvTranspose2d(config.dreamer.decoder.depth*32, config.dreamer.decoder.depth*4, config.dreamer.decoder.kernelSize, config.dreamer.decoder.stride),
         self.activation,
