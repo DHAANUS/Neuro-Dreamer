@@ -108,13 +108,39 @@ def ensureParentFile(*paths):
     if parentFolder and not os.path.exists(parentFolder):
       os.makedirs(parentFolder, exist_ok=True)
 
+def get_activation(name):
+  if name is None or name is False:
+    return None
+
+  name = name.lower()
+  if name == 'relu':
+    return nn.ReLU()
+  elif name == 'tanh':
+    return nn.Tanh()
+  elif name == 'sigmoid':
+    return nn.Sigmoid()
+  elif name == 'elu':
+    return nn.ELU()
+  elif name == 'leakyrelu':
+    return nn.LeakyReLU()
+  elif name == 'gelu':
+    return nn.GELU()
+  elif name == 'swish':
+    return nn.SiLU()
+  else:
+    raise ValueError(f'Unknown activation function: {name}')
+
+
 def build_nn(input_size, hidden_size, num_layers ,output_size ,activation=False):
   layers = []
+  act = get_activation(activation)
   layers.append(nn.Linear(input_size, hidden_size))
-  layers.append(activation)
+  if act:
+    layers.append(get_activation(activation))
   for i in range(num_layers - 1):
     layers.append(nn.Linear(hidden_size, hidden_size))
-    layers.append(activation)
+    if act:
+      layers.append(get_activation(activation))
   layers.append(nn.Linear(hidden_size, output_size))
   network = nn.Sequential(*layers)
   return network
