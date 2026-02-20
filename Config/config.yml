@@ -15,7 +15,7 @@ numInteractionPerEpisode: 1
 numEvaluationPerEpisode: 1
 
 dreamer:
-    batchSize: 32
+    batchsize: 32
     batchlength: 64
     imaginehorizon: 15
 
