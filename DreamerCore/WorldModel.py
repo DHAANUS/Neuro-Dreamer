@@ -50,8 +50,18 @@ class WorldModel(nn.Module):
     posteriorLogits = torch.stack(posteriorLogits, dim=1)
 
     fullstates = torch.cat((recurrentStates, posteriors), dim=-1)
-
-    reconstructionMean = self.decoder(fullstates.view(-1, self.fullStateSize)).view(self.config.dreamer.batchsize, self.config.dreamer.batchlength-1, *self.observation_shape)
+    print(fullstates.shape)
+    # reconstructionMean = self.decoder(fullstates.view(-1, self.fullStateSize)).view(self.config.dreamer.batchsize, self.config.dreamer.batchlength-1, *self.observation_shape)
+    decoded = self.decoder(fullstates.view(-1, self.fullStateSize))
+    print(decoded.shape)
+    print(data.observations[:, 1:].shape)
+    reconstructionMean = decoded.view(
+      self.config.dreamer.batchsize,
+      self.config.dreamer.batchlength-1,
+      *decoded.shape[1:]
+    )
+    print("Decoder:", reconstructionMean.shape)
+    print("Target :", data.observations[:, 1:].shape)
     reconstructiondist = Independent(Normal(reconstructionMean, 1), len(self.observation_shape))
     reconstructionLoss = -reconstructiondist.log_prob(data.observations[:, 1:]).mean()
 
