@@ -32,7 +32,8 @@ class CentralInitialization(nn.Module):
                            config).to(self.device)
     self.decoder = Decoder(self.fullStateSize,
                            observation_shape,
-                           config.dreamer.decoder.activation).to(self.device)
+                           config.dreamer.decoder.activation,
+                           config).to(self.device)
 
     self.recurrentModel = Recurrent_Model(action_size,
                                           self.latentsize,
