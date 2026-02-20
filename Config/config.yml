@@ -10,7 +10,7 @@ checkpointInterval: 2000
 resume: False
 checkpointLoad: 50k
 
-episodedbeforestart: 5
+episodedbeforestart: 20
 numInteractionPerEpisode: 1
 numEvaluationPerEpisode: 1
 
