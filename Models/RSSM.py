@@ -11,7 +11,7 @@ class Recurrent_model(nn.Module):
     self.action_dim = action_dim
     self.deterministic_size = deterministic_size
     self.stochasticSize = stochasticSize
-    self.activation = config.dreamer.recurrentModel.activation
+    self.activation = get_activation(config.dreamer.recurrentModel.activation)
 
     self.linear = nn.Linear(
         self.action_dim+self.stochasticSize, 200
