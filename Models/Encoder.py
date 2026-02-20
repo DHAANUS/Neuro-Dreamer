@@ -10,16 +10,16 @@ class Encoder(nn.Module):
     self.outputsize = outputsize
     self.activation = get_activation(config.dreamer.encoder.activation)
     self.network = nn.Sequential(
-        nn.Conv2d(channels, 16, kernel_size=4, stride=4, padding=1),
+        nn.Conv2d(channels, config.dreamer.encoder.depth*1, config.dreamer.encoder.kernelSize, config.dreamer.encoder.stride, padding=1),
         self.activation,
-        nn.Conv2d(16,32, kernel_size=4, stride=2, padding=1),
+        nn.Conv2d(config.dreamer.encoder.depth*1 ,config.dreamer.encoder.depth*2, config.dreamer.encoder.kernelSize, config.dreamer.encoder.stride, padding=1),
         self.activation,
-        nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=1),
+        nn.Conv2d(config.dreamer.encoder.depth*2, config.dreamer.encoder.depth*4, config.dreamer.encoder.kernelSize, config.dreamer.encoder.stride, padding=1),
         self.activation,
-        nn.Conv2d(64, 128, kernel_size=4, stride=2, padding=1),
+        nn.Conv2d(config.dreamer.encoder.depth*4, config.dreamer.encoder.depth*8, config.dreamer.encoder.kernelSize, config.dreamer.encoder.stride, padding=1),
         self.activation,
         nn.Flatten(),
-        nn.Linear(128*(height//16)*(width//16), outputsize),
+        nn.Linear(config.dreamer.encoder.depth*8*(height//config.dreamer.encoder.stride ** 4)*(width//config.dreamer.encoder.stride ** 4), outputsize),
         self.activation
     )
   def forward(self, x):
