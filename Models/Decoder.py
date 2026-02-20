@@ -11,7 +11,7 @@ class Decoder(nn.Module):
     self.network = nn.Sequential(
         nn.Linear(inputsize, config.dreamer.decoder.depth*32*2*2),
         nn.Unflatten(1, (config.dreamer.decoder.depth*32 , 2, 2)),
-        nn.Unflatten(2, (1, 1)),
+        # nn.Unflatten(2, (1, 1)),
         nn.ConvTranspose2d(config.dreamer.decoder.depth*32, config.dreamer.decoder.depth*4, config.dreamer.decoder.kernelSize, config.dreamer.decoder.stride),
         self.activation,
         nn.ConvTranspose2d(config.dreamer.decoder.depth*4, config.dreamer.decoder.depth*2, config.dreamer.decoder.kernelSize, config.dreamer.decoder.stride),
