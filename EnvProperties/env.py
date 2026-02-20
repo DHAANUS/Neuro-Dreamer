@@ -28,6 +28,17 @@ class envWrapper(gym.Wrapper):
     return obs, reward, done
 
   def reset(self, seed=None):
-    obs, info = self.env.reset(seed=seed)
+    try:
+      if seed is not None:
+        result = self.env.reset(seed=seed)
+      else:
+        result = self.env.reset()
+    except TypeError:
+      result = self.env.reset()
+    if isinstance(result, tuple):
+      obs, info = result
+    else:
+      obs = result
+    # obs, info = self.env.reset(seed=seed)
     return obs
 
