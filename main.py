@@ -57,7 +57,7 @@ def main(configFile):
   iterationsNum = config.gradientSteps // config.replayRatio
   for _ in range(iterationsNum):
     for _ in range(config.replayRatio):
-      sampleData = core.buffer.sample(config.dreamer.batchSize, config.dreamer.batchlength)
+      sampleData = core.buffer.sample(config.dreamer.batchsize, config.dreamer.batchlength)
       initialStates, worldModelMetrics = worldmodel.train_world(sampleData)
       behaviourMetrics = behaviour.train_behaviour(initialStates)
       core.totalGradientSteps += 1
