@@ -33,8 +33,8 @@ class Prior(nn.Module):
     self.activation = config.dreamer.priorModel.activation
     self.deterministic_size = deterministic_size
 
-    self.layers_size = config.dreamer.prior.hiddenLayers
-    self.hidden_size = config.dreamer.prior.hiddenSize
+    self.layers_size = config.dreamer.priorModel.hiddenLayers
+    self.hidden_size = config.dreamer.priorModel.hiddenSize
     self.network = build_nn(
         self.deterministic_size,
         self.hidden_size,
