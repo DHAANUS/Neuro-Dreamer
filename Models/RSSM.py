@@ -50,7 +50,7 @@ class Prior(nn.Module):
       final_probability = (1-0.01)*probability + 0.01*uniform
       logits = torch.distributions.utils.probs_to_logits(final_probability)
       sample = torch.distributions.Independent(torch.distributions.OneHotCategoricalStraightThrough(logits=logits), 1).rsample()
-      return sample.view(-1, self.latent_size), logits
+      return sample.view(-1, self.stochasticSize), logits
 
 
 class Posterior(nn.Module):
