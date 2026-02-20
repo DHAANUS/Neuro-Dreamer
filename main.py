@@ -62,7 +62,7 @@ def main(configFile):
       behaviourMetrics = behaviour.train_behaviour(initialStates)
       core.totalGradientSteps += 1
 
-      if core.totalGradientSteps % config.checkPointInterval == 0 and config.saveCheckpoints:
+      if core.totalGradientSteps % config.checkpointInterval == 0 and config.saveCheckpoints:
         suffix = f'{core.totalGradientSteps/1000:.0f}k'
         saveCheckpoints.saveCheckpoint(f'{checkpointFilenameBase}_{suffix}')
         evalScore = envinter.envInteraction(enveval, config.numEvaluationEpisodes, seed=config.seed, evaluation=True, savevideo=True, fileName=f'{videoFilenameBase}_{suffix}')
