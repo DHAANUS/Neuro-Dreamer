@@ -78,5 +78,5 @@ def main(configFile):
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument('--config', type=str, default='config.yml')
+  parser.add_argument('--config', type=str, default='Config/config.yml')
   main(parser.parse_args().config)
