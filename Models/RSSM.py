@@ -17,7 +17,7 @@ class Recurrent_model(nn.Module):
     )
     self.recurrent = nn.GRUCell(200, deterministic_size)
 
-  def forward(self, stochastic, deterministic, action):
+  def forward(self, deterministic, stochastic, action):
     x = torch.cat((stochastic, action), 1)
     x = self.activation(self.linear(x))
     x = self.recurrent(x, deterministic)
