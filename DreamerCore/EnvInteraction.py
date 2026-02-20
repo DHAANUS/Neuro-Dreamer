@@ -31,7 +31,14 @@ class EnvironmentInteraction(nn.Module):
       recurrentState = torch.zeros(1, self.recurrentSize, device=self.device)
       latentState = torch.zeros(1, self.latentsize, device=self.device)
       action = torch.zeros(1, self.action_size).to(self.device) #
-      observation = env.reset(seed= (seed + self.totalEpisodes if seed else None))
+      if seed is not None:
+        try:
+          observation = env.reset(seed = seed + self.totalEpisodes)
+        except:
+          observation = env.reset()
+      else:
+        observation = env.reset()
+      # observation = env.reset(seed= (seed + self.totalEpisodes if seed else None))
       encodedObs = self.encoder(torch.from_numpy(observation).float().unsqueeze(0).to(self.device))
 
       currScore, stepCount, done, frames = 0, 0, False, []
