@@ -28,7 +28,8 @@ class CentralInitialization(nn.Module):
 
     self.encoder = Encoder(observation_shape,
                            config.dreamer.encodedObjSize,
-                           config.dreamer.encoder.activation).to(self.device)
+                           config.dreamer.encoder.activation,
+                           config).to(self.device)
     self.decoder = Decoder(self.fullStateSize,
                            observation_shape,
                            config.dreamer.decoder.activation).to(self.device)
