@@ -19,6 +19,7 @@ class Decoder(nn.Module):
         nn.ConvTranspose2d(config.dreamer.decoder.depth*2, config.dreamer.decoder.depth*1, config.dreamer.decoder.kernelSize+1, config.dreamer.decoder.stride, padding=1),
         self.activation,
         nn.ConvTranspose2d(config.dreamer.decoder.depth*1, self.channels, config.dreamer.decoder.kernelSize+1, config.dreamer.decoder.stride, padding=1),
+        nn.Upsample(size=(self.height, self.width), mode="bilinear", align_corners=False)
     )
   def forward(self,x):
     return self.network(x)
