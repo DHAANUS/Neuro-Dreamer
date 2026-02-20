@@ -9,16 +9,16 @@ class Decoder(nn.Module):
     self.channels, self.height, self.width = outputshape
     self.activation = get_activation(activation)
     self.network = nn.Sequential(
-        nn.Linear(inputsize, 512),
-        nn.Unflatten(1, (512, 1)),
+        nn.Linear(inputsize, config.dreamer.decoder.depth*32),
+        nn.Unflatten(1, (config.dreamer.decoder.depth*32 , 1)),
         nn.Unflatten(2, (1, 1)),
-        nn.ConvTranspose2d(512, 64, kernel_size=4, stride=2),
+        nn.ConvTranspose2d(config.dreamer.decoder.depth*32, config.dreamer.decoder.depth*4, config.dreamer.decoder.kernelSize, config.dreamer.decoder.stride),
         self.activation,
-        nn.ConvTranspose2d(64, 32, kernel_size=4, stride=2),
+        nn.ConvTranspose2d(config.dreamer.decoder.depth*4, config.dreamer.decoder.depth*2, config.dreamer.decoder.kernelSize, config.dreamer.decoder.stride),
         self.activation,
-        nn.ConvTranspose2d(32, 16, kernel_size=4+1, stride=2),
+        nn.ConvTranspose2d(config.dreamer.decoder.depth*2, config.dreamer.decoder.depth*1, config.dreamer.decoder.kernelSize+1, config.dreamer.decoder.stride),
         self.activation,
-        nn.ConvTranspose2d(16, self.channels, kernel_size=4+1, stride=2),
+        nn.ConvTranspose2d(config.dreamer.decoder.depth*1, self.channels, config.dreamer.decoder.kernelSize+1, config.dreamer.decoder.stride),
     )
   def forward(self,x):
     return self.network(x)
