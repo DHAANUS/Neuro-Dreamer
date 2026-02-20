@@ -2,7 +2,7 @@ envname: SuperMarioBros-v0
 run_name: SuperMarioBrosNes
 seed: 1
 
-gradient_steps: 60000
+gradientSteps: 60000
 replay_ratio: 100
 saveMetrics: True
 saveCheckpoints: True
