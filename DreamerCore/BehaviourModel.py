@@ -45,10 +45,10 @@ class BehaviorModel(nn.Module):
     logprobs = torch.stack(logprobs[1:], dim=1)
     entropies = torch.stack(entropies[1:], dim=1)
 
-    predReward = self.reward(fullStates[:, :-1]).mean
-    values = self.critic(fullStates).mean
+    predReward = self.reward(fullStates[:, :-1]).mean.squeeze(-1)
+    values = self.critic(fullStates).mean.squeeze(-1)
     if self.config.dreamer.useContinuationPred:
-      continues = self.continueModel(fullStates).mean
+      continues = self.continueModel(fullStates).mean.squeeze(-1)
     else:
       continues = torch.full_like(predReward, self.config.dreamer.discount)
 
