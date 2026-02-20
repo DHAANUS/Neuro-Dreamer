@@ -9,7 +9,7 @@ class RewardModel(nn.Module):
     super().__init__()
     self.input_size = inputSize
     self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    self.network = build_nn(self.inputsize,
+    self.network = build_nn(self.input_size,
                             config.dreamer.rewardModel.hiddenSize,
                             config.dreamer.rewardModel.hiddenLayers ,
                             2, 
