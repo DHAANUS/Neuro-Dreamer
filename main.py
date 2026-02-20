@@ -7,7 +7,6 @@ import argparse
 from nes_py.wrappers import JoypadSpace
 from gym_super_mario_bros.actions import RIGHT_ONLY
 
-from Config import config
 from Utils.Utils import seeding, loadConfig, ensureParentFile, saveLoss, plotMetrics
 from EnvProperties.env import envWrapper, envPreproccessing, getEnvinfo
 from DreamerCore.CoreInit import CentralInitialization
