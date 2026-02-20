@@ -75,7 +75,8 @@ class WorldModel(nn.Module):
 
     if self.config.dreamer.useContinuationPred:
       continueDist = self.continueModel(fullstates)
-      continueLoss = nn.BCELoss(continueDist.probs, 1-data.dones[:, 1:])
+      bce = nn.BCELoss()
+      continueLoss = bce(continueDist.probs, 1-data.dones[:, 1:])
       worldmodelLoss += continueLoss.mean()
 
     self.worldmodelOptimizer.zero_grad()
