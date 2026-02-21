@@ -94,7 +94,7 @@ def main(configFile):
       combinedMetrics = metricBase | worldModelMetrics | behaviourMetrics
 
       saveLoss(metricsFilename, metricBase | worldModelMetrics | behaviourMetrics)
-      plotMetrics(f'{metricsFilename}', savePath=f'{plotFilename}', title=f'{config.envname}')
+      # plotMetrics(f'{metricsFilename}', savePath=f'{plotFilename}', title=f'{config.envname}')
       wandb.log(combinedMetrics)
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
