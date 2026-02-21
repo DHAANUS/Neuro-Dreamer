@@ -58,11 +58,15 @@ class EnvironmentInteraction(nn.Module):
           one_hot = np.zeros(self.action_size , dtype=np.float32)
           one_hot[actionindex] = 1.0
           self.buffer.add(observation, one_hot, reward, nextObservation, done)
+ 
         if savevideo and i == 0:
-          frame = env.render()
-          targetheight = (frame.shape[0] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
-          targetwidth = (frame.shape[1] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
-          frames.append(np.pad(frame, ((0, targetheight - frame.shape[0]), (0 , targetwidth - frame.shape[1]),(0,0)), mode='edge'))
+          try:
+            frame = env.unwrapped.render(mode="rgb_array")
+            targetheight = (frame.shape[0] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
+            targetwidth = (frame.shape[1] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
+            frames.append(np.pad(frame, ((0, targetheight - frame.shape[0]), (0 , targetwidth - frame.shape[1]),(0,0)), mode='edge'))
+          except Exception as e:
+            print('Render Skipped', e)
 
         encodedObs = self.encoder(torch.from_numpy(nextObservation).float().unsqueeze(0).to(self.device))
         observation = nextObservation
