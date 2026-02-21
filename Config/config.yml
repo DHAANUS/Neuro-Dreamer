@@ -11,8 +11,8 @@ resume: False
 checkpointLoad: 50k
 
 episodedbeforestart: 5
-numInteractionPerEpisode: 1
-numEvaluationPerEpisode: 1
+numInteractionEpisode: 1
+numEvaluationEpisode: 1
 
 dreamer:
     batchsize: 32
