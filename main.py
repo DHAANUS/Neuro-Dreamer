@@ -68,7 +68,7 @@ def main(configFile):
         evalScore = envinter.envInteraction(enveval, config.numEvaluationEpisodes, seed=config.seed, evaluation=True, savevideo=True, fileName=f'{videoFilenameBase}_{suffix}')
         print(f'Saved Checkpoint and Video to {suffix:>6} gradient steps. Evaluation Score: {evalScore:>0.2f}')
 
-    RecentScore = envinter.envInteraction(env, config.numInteractionEpisodes, seed=config.seed)
+    RecentScore = envinter.envInteraction(env, config.numInteractionEpisode, seed=config.seed)
     if config.saveMetrics:
       metricBase = {'envSteps': core.totalEnvSteps,
                     'gradientSteps': core.totalGradientSteps,
