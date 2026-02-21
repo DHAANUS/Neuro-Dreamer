@@ -4,6 +4,8 @@ import gym_super_mario_bros
 import os
 import torch
 import argparse
+import wandb
+
 from nes_py.wrappers import JoypadSpace
 from gym_super_mario_bros.actions import RIGHT_ONLY
 
@@ -21,6 +23,12 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def main(configFile):
   config = loadConfig(configFile)
   seeding(config.seed)
+
+  wandb.init(
+      project="neuro-dreamer-mario",
+      name=config.run_name,
+      config=config
+  )
 
   runName = f'{config.envname}_{config.run_name}'
   checkpointLoad = os.path.join(config.folderName.checkpointFolder, f'{runName}_{config.checkpointLoad}')
@@ -76,9 +84,11 @@ def main(configFile):
       metricBase = {'envSteps': core.totalEnvSteps,
                     'gradientSteps': core.totalGradientSteps,
                     'totalReward': RecentScore }
+      combinedMetrics = metricBase | worldModelMetrics | behaviourMetrics
+
       saveLoss(metricsFilename, metricBase | worldModelMetrics | behaviourMetrics)
       plotMetrics(f'{metricsFilename}', savePath=f'{plotFilename}', title=f'{config.envname}')
-
+      wandb.log(combinedMetrics)
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('--config', type=str, default='Config/config.yml')
