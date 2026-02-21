@@ -41,8 +41,8 @@ class WorldModel(nn.Module):
       posteriors.append(posterior)
       posteriorLogits.append(posteriorLogit)
 
-      previousRecurrentState = recurrentState.detach()
-      previousLatentState = posterior.detach()
+      previousRecurrentState = recurrentState
+      previousLatentState = posterior
 
     recurrentStates = torch.stack(recurrentStates, dim=1)
     priorLogits = torch.stack(priorLogits, dim=1)
