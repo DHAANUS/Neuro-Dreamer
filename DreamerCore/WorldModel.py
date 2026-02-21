@@ -97,7 +97,7 @@ class WorldModel(nn.Module):
     klLossShift = (self.config.dreamer.betaPrior + self.config.dreamer.betaPosterior) *self.config.dreamer.freeNats
 
     metrics = {
-        'worldmodelLoss' : worldmodelLoss.item() - klLossShift,
+        'worldmodelLoss' : worldmodelLoss.item(),
         'reconstructionLoss' : reconstructionLoss.item(),
         'rewardPredictionLoss' : rewardLoss.item(),
         'klLoss' : klLoss.item() - klLossShift
