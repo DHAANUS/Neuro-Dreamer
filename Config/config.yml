@@ -3,15 +3,15 @@ run_name: SuperMarioBrosNes
 seed: 1
 
 gradientSteps: 60000
-replayRatio: 100
+replayRatio: 10
 saveMetrics: True
 saveCheckpoints: True
 checkpointInterval: 2000
 resume: False
 checkpointLoad: 50k
 
-episodedbeforestart: 5
-numInteractionEpisode: 1
+episodedbeforestart: 20
+numInteractionEpisode: 3
 numEvaluationEpisode: 1
 
 dreamer:
@@ -33,7 +33,7 @@ dreamer:
 
     discount: 0.996
     lambda_: 0.95
-    freeNats: 1
+    freeNats: 0.1
     betaPrior: 1.0
     betaPosterior: 0.1
     entropyScale: 0.0003
