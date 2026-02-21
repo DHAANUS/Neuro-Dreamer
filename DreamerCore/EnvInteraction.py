@@ -8,6 +8,7 @@ class EnvironmentInteraction(nn.Module):
       super().__init__()
       self.config = config
       self.device = core.device
+      self.core = core
 
       self.observation_shape = core.observation_shape
       self.latentsize = core.latentsize
@@ -21,8 +22,8 @@ class EnvironmentInteraction(nn.Module):
       self.actor = core.actor
 
       self.buffer = core.buffer
-      self.totalEpisodes = core.totalEpisodes
-      self.totalEnvSteps = core.totalEnvSteps
+      # self.totalEpisodes = core.totalEpisodes
+      # self.totalEnvSteps = core.totalEnvSteps
 
   @torch.no_grad()
   def envInteraction(self, env, numEpisodes, seed=None, evaluation=False, savevideo=False, fileName='videos/testvideo',fps=30, macroBlockSize=16):
@@ -71,8 +72,8 @@ class EnvironmentInteraction(nn.Module):
         if done:
           scores.append(currScore)
           if not evaluation:
-            self.totalEpisodes += 1
-            self.totalEnvSteps += stepCount
+            self.core.totalEpisodes += 1
+            self.core.totalEnvSteps += stepCount
 
           if savevideo and i == 0:
             finalFilename = f'{fileName} _reward_{currScore:.0f}.mp4'
