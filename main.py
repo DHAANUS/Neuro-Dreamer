@@ -70,6 +70,13 @@ def main(configFile):
       behaviourMetrics = behaviour.train_behaviour(initialStates)
       core.totalGradientSteps += 1
 
+      if core.totalGradientSteps % 100 == 0:
+        wandb.log({
+            "gradientSteps": core.totalGradientSteps,
+            **worldModelMetrics,
+            **behaviourMetrics
+        })
+
       if core.totalGradientSteps % config.checkpointInterval == 0 and config.saveCheckpoints:
         print("Steps:", core.totalGradientSteps,
           "ReconLoss:", worldModelMetrics["reconstructionLoss"],
