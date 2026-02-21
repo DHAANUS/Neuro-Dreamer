@@ -60,8 +60,8 @@ class WorldModel(nn.Module):
       self.config.dreamer.batchlength-1,
       *decoded.shape[1:]
     )
-    print("Decoder:", reconstructionMean.shape)
-    print("Target :", data.observations[:, 1:].shape)
+    # print("Decoder:", reconstructionMean.shape)
+    # print("Target :", data.observations[:, 1:].shape)
     reconstructiondist = Independent(Normal(reconstructionMean, 1), len(self.observation_shape))
     reconstructionLoss = -reconstructiondist.log_prob(data.observations[:, 1:]).mean()
 
