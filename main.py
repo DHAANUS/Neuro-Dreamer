@@ -82,7 +82,7 @@ def main(configFile):
           "ReconLoss:", worldModelMetrics["reconstructionLoss"],
           "Reward:", worldModelMetrics.get("rewardLoss", 0))
         suffix = f'{core.totalGradientSteps/1000:.0f}k'
-        saveCheckpoints.saveCheckpoint(f'{checkpointFilenameBase}_{suffix}')
+        saveCheckpoints.saveCheckpoint(f'{checkpointFilenameBase}_{suffix}', core.totalGradientSteps)
         evalScore = envinter.envInteraction(enveval, config.numEvaluationEpisode, seed=config.seed, evaluation=True, savevideo=True, fileName=f'{videoFilenameBase}_{suffix}')
         print(f'Saved Checkpoint and Video to {suffix:>6} gradient steps. Evaluation Score: {evalScore:>0.2f}')
 
