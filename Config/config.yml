@@ -3,7 +3,7 @@ run_name: SuperMarioBrosNes
 seed: 1
 
 gradientSteps: 60000
-replayRatio: 10
+replayRatio: 1
 saveMetrics: True
 saveCheckpoints: True
 checkpointInterval: 200
@@ -18,7 +18,7 @@ numEvaluationEpisode: 1
 dreamer:
     batchsize: 64
     batchlength: 64
-    imaginehorizon: 15
+    imaginehorizon: 25
 
     recurrentSize: 512
     latentlength: 16
@@ -37,7 +37,7 @@ dreamer:
     freeNats: 0.1
     betaPrior: 0.8
     betaPosterior: 0.8
-    entropyScale: 0.0003
+    entropyScale: 0.01
 
     buffer:
         capacity: 50000
@@ -46,50 +46,50 @@ dreamer:
         depth: 16
         stride: 2
         kernelSize: 4
-        activation: Tanh
+        activation: ELU
 
     decoder:
         depth: 16
         stride: 2
         kernelSize: 4
-        activation: Tanh
+        activation: ELU
 
     recurrentModel:
         hiddenSize: 200
-        activation: Tanh
+        activation: ELU
 
     priorModel:
         hiddenSize: 200
         hiddenLayers: 2
-        activation: Tanh
+        activation: ELU
         uniformMix: 0.01
 
     posterior:
         hiddenSize: 200
         hiddenLayers: 2
-        activation: Tanh
+        activation: ELU
         uniformMix: 0.01
 
     rewardModel:
         hiddenSize: 400
         hiddenLayers: 2
-        activation: Tanh
+        activation: ELU
 
     continuationModel:
         hiddenSize: 400
         hiddenLayers: 3
-        activation: Tanh
+        activation: ELU
 
     actorModel:
         hiddenSize: 400
         hiddenLayers: 2
         tau: 1.0
-        activation: Tanh
+        activation: ELU
 
     criticModel:
         hiddenSize: 400
         hiddenLayers: 3
-        activation: Tanh
+        activation: ELU
 
 folderName:
     metricFolder: metrics
