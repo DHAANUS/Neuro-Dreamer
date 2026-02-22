@@ -52,13 +52,13 @@ class EnvironmentInteraction(nn.Module):
                             training=False)
         actionindex = action.argmax(dim=1).item()
 
-        nextObservation, reward, done = env.step(actionindex)
+        nextObservation, reward, done , _= env.step(actionindex)
 
         if not evaluation:
           one_hot = np.zeros(self.action_size , dtype=np.float32)
           one_hot[actionindex] = 1.0
           self.buffer.add(observation, one_hot, reward, nextObservation, done)
- 
+
         if savevideo and i == 0:
           try:
             frame = env.unwrapped.render(mode="rgb_array")
