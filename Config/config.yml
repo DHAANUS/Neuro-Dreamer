@@ -10,12 +10,13 @@ checkpointInterval: 200
 resume: False
 checkpointLoad: 50k
 
+use_foveation: False
 episodedbeforestart: 20
 numInteractionEpisode: 3
 numEvaluationEpisode: 1
 
 dreamer:
-    batchsize: 32
+    batchsize: 64
     batchlength: 64
     imaginehorizon: 15
 
