@@ -37,7 +37,7 @@ dreamer:
     freeNats: 0.1
     betaPrior: 0.8
     betaPosterior: 0.8
-    entropyScale: 0.0007
+    entropyScale: 0.005
 
     buffer:
         capacity: 50000
