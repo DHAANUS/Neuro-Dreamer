@@ -16,9 +16,9 @@ numInteractionEpisode: 3
 numEvaluationEpisode: 1
 
 dreamer:
-    batchsize: 64
+    batchsize: 32
     batchlength: 64
-    imaginehorizon: 25
+    imaginehorizon: 50
 
     recurrentSize: 512
     latentlength: 16
@@ -26,7 +26,7 @@ dreamer:
     encodedObjSize: 1024
 
     useContinuationPred: False
-    actorLR: 0.00004
+    actorLR: 0.0001
     criticLR: 0.0001
     worldmodelLR: 0.0002
     gradientNormType: 2
@@ -37,7 +37,7 @@ dreamer:
     freeNats: 0.1
     betaPrior: 0.8
     betaPosterior: 0.8
-    entropyScale: 0.01
+    entropyScale: 0.0007
 
     buffer:
         capacity: 50000
