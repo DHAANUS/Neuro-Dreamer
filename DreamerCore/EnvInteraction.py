@@ -39,6 +39,7 @@ class EnvironmentInteraction(nn.Module):
           observation = env.reset()
       else:
         observation = env.reset()
+      self._max_x = 0
       # observation = env.reset(seed= (seed + self.totalEpisodes if seed else None))
       encodedObs = self.encoder(torch.from_numpy(observation).float().unsqueeze(0).to(self.device))
 
@@ -52,12 +53,19 @@ class EnvironmentInteraction(nn.Module):
                             training=False)
         actionindex = action.argmax(dim=1).item()
 
-        nextObservation, reward, done , _= env.step(actionindex)
+        nextObservation, reward, done , info= env.step(actionindex)
+        x = info.get('x_pos', 0)
+
+        if not hasattr(self, '_max_x'):
+            self._max_x = 0
+        progress = max(0, x - self._max_x)
+        self._max_x = max(self._max_x, x)
+        shaped_reward = progress * 0.1
 
         if not evaluation:
           one_hot = np.zeros(self.action_size , dtype=np.float32)
           one_hot[actionindex] = 1.0
-          self.buffer.add(observation, one_hot, reward, nextObservation, done)
+          self.buffer.add(observation, one_hot, shaped_reward, nextObservation, done)
 
         if savevideo and i == 0:
           try:
@@ -70,7 +78,7 @@ class EnvironmentInteraction(nn.Module):
 
         encodedObs = self.encoder(torch.from_numpy(nextObservation).float().unsqueeze(0).to(self.device))
         observation = nextObservation
-        currScore += reward
+        currScore += shaped_reward
         stepCount += 1
 
         if done:
