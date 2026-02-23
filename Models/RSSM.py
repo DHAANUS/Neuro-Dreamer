@@ -44,15 +44,21 @@ class Prior(nn.Module):
         activation = self.activation
     )
 
+  # def forward(self, x):
+  #     x = self.network(x)
+  #     probability = x.view(-1, self.latent_length, self.latent_class).softmax(-1)
+  #     uniform = torch.ones_like(probability)/self.latent_class
+  #     final_probability = (1-0.01)*probability + 0.01*uniform
+  #     logits = torch.distributions.utils.probs_to_logits(final_probability)
+  #     sample = torch.distributions.Independent(torch.distributions.OneHotCategoricalStraightThrough(logits=logits), 1).rsample()
+  #     return sample.view(-1, self.stochasticSize), logits
   def forward(self, x):
-      x = self.network(x)
-      probability = x.view(-1, self.latent_length, self.latent_class).softmax(-1)
-      uniform = torch.ones_like(probability)/self.latent_class
-      final_probability = (1-0.01)*probability + 0.01*uniform
-      logits = torch.distributions.utils.probs_to_logits(final_probability)
-      sample = torch.distributions.Independent(torch.distributions.OneHotCategoricalStraightThrough(logits=logits), 1).rsample()
-      return sample.view(-1, self.stochasticSize), logits
-
+    x = self.network(x)
+    logits = x.view(-1, self.latent_length, self.latent_class)
+    sample = torch.distributions.Independent(
+        torch.distributions.OneHotCategoricalStraightThrough(logits=logits), 1
+    ).rsample()
+    return sample.view(-1, self.stochasticSize), logits
 
 class Posterior(nn.Module):
   def __init__(self, inputSize, latent_length, latent_classes, config):
@@ -74,12 +80,19 @@ class Posterior(nn.Module):
         activation = self.config.dreamer.posterior.activation
         )
 
+  # def forward(self, x):
+  #     # x = torch.cat((deterministic, obs), 1)
+  #     x = self.network(x)
+  #     probability = x.view(-1, self.latent_length, self.latent_class).softmax(-1)
+  #     uniform = torch.ones_like(probability)/self.latent_class
+  #     final_probability = (1-0.01)*probability + 0.01*uniform
+  #     logits = torch.distributions.utils.probs_to_logits(final_probability)
+  #     sample = torch.distributions.Independent(torch.distributions.OneHotCategoricalStraightThrough(logits=logits), 1).rsample()
+  #     return sample.view(-1, self.latent_size), logits
   def forward(self, x):
-      # x = torch.cat((deterministic, obs), 1)
-      x = self.network(x)
-      probability = x.view(-1, self.latent_length, self.latent_class).softmax(-1)
-      uniform = torch.ones_like(probability)/self.latent_class
-      final_probability = (1-0.01)*probability + 0.01*uniform
-      logits = torch.distributions.utils.probs_to_logits(final_probability)
-      sample = torch.distributions.Independent(torch.distributions.OneHotCategoricalStraightThrough(logits=logits), 1).rsample()
-      return sample.view(-1, self.latent_size), logits
+    x = self.network(x)
+    logits = x.view(-1, self.latent_length, self.latent_class)
+    sample = torch.distributions.Independent(
+        torch.distributions.OneHotCategoricalStraightThrough(logits=logits), 1
+    ).rsample()
+    return sample.view(-1, self.latent_size), logits
