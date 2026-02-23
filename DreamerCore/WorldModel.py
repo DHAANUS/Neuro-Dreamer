@@ -94,7 +94,7 @@ class WorldModel(nn.Module):
     nn.utils.clip_grad_norm_(self.worldmodelParameters, self.config.dreamer.gradientClip, norm_type=self.config.dreamer.gradientNormType)
     self.worldmodelOptimizer.step()
 
-    klLossShift = (self.config.dreamer.betaPrior + self.config.dreamer.betaPosterior) *self.config.dreamer.freeNats
+    klLossShift = 0 #(self.config.dreamer.betaPrior + self.config.dreamer.betaPosterior) *self.config.dreamer.freeNats
 
     metrics = {
         'worldmodelLoss' : worldmodelLoss.item(),
