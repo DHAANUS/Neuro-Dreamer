@@ -8,9 +8,9 @@ import wandb
 
 from nes_py.wrappers import JoypadSpace
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
-
+from EnvProperties.f_env import envWrapper, envPreproccessing, getEnvinfo, foveatedObservation, SkipFrame
 from Utils.Utils import seeding, loadConfig, ensureParentFile, saveLoss, plotMetrics
-from EnvProperties.f_env import envWrapper, envPreproccessing, getEnvinfo, foveatedObservation
+# from EnvProperties.f_env import envWrapper, envPreproccessing, getEnvinfo, foveatedObservation
 # from EnvProperties.env import
 from DreamerCore.CoreInit import CentralInitialization
 from DreamerCore.WorldModel import WorldModel
@@ -41,6 +41,7 @@ def main(configFile):
   ensureParentFile(metricsFilename, plotFilename, checkpointFilenameBase, videoFilenameBase)
   base_env = gym_super_mario_bros.make(config.envname)
   base_env = JoypadSpace(base_env, SIMPLE_MOVEMENT)
+  base_env = SkipFrame(base_env, skip=4)
   if config.use_foveation:
     base_env = foveatedObservation(base_env)
   env = envWrapper(envPreproccessing(
@@ -48,6 +49,7 @@ def main(configFile):
 
   base_enveval = gym_super_mario_bros.make(config.envname)
   base_enveval = JoypadSpace(base_enveval, SIMPLE_MOVEMENT)
+  base_enveval = SkipFrame(base_enveval, skip=4)
   if config.use_foveation:
     base_enveval = foveatedObservation(base_enveval)
   enveval = envWrapper(envPreproccessing(
