@@ -60,19 +60,19 @@ dreamer:
 
     priorModel:
         hiddenSize: 200
-        hiddenLayers: 2
+        hiddenLayers: 3
         activation: ELU
         uniformMix: 0.01
 
     posterior:
         hiddenSize: 200
-        hiddenLayers: 2
+        hiddenLayers: 3
         activation: ELU
         uniformMix: 0.01
 
     rewardModel:
         hiddenSize: 400
-        hiddenLayers: 2
+        hiddenLayers: 3
         activation: ELU
 
     continuationModel:
@@ -82,7 +82,7 @@ dreamer:
 
     actorModel:
         hiddenSize: 400
-        hiddenLayers: 2
+        hiddenLayers: 3
         tau: 1.0
         activation: ELU
 
