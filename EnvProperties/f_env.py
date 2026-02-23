@@ -65,7 +65,20 @@ class foveatedObservation(gym.ObservationWrapper):
     result[outer_mask] = outer_blur_frame[outer_mask]
 
     return result.astype(np.uint8)
+    
+class SkipFrame(gym.Wrapper):
+    def __init__(self, env, skip=4):
+        super().__init__(env)
+        self._skip = skip
 
+    def step(self, action):
+        total_reward = 0.0
+        for _ in range(self._skip):
+            obs, reward, done, info = self.env.step(action)
+            total_reward += reward
+            if done:
+                break
+        return obs, total_reward, done, info
 
 class envPreproccessing(gym.ObservationWrapper):
   def __init__(self, env):
@@ -84,7 +97,7 @@ class envWrapper(gym.Wrapper):
 
   def step(self, action):
     obs, reward, done, info = self.env.step(action)
-    return obs, reward, done, info 
+    return obs, reward, done, info
 
   def reset(self, seed=None):
     try:
