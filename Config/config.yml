@@ -34,7 +34,7 @@ dreamer:
 
     discount: 0.996
     lambda_: 0.95
-    freeNats: 3.0
+    freeNats: 1.0
     betaPrior: 1.5
     betaPosterior: 1.5
     entropyScale: 0.01
