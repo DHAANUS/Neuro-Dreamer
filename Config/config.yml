@@ -2,42 +2,41 @@ envname: SuperMarioBros-v0
 run_name: SuperMarioBrosNes
 seed: 1
 
-gradientSteps: 60000
+gradientSteps: 80000
 replayRatio: 1
 saveMetrics: True
 saveCheckpoints: True
 checkpointInterval: 10
 resume: False
-checkpointLoad: 50k
 
 use_foveation: False
-episodedbeforestart: 10
+episodedbeforestart: 15
 numInteractionEpisode: 3
 numEvaluationEpisode: 1
 
 dreamer:
     batchsize: 32
     batchlength: 64
-    imaginehorizon: 15
+    imaginehorizon: 50      # <--- CRITICAL: 3.3 seconds of foresight to "see" the flagpole
 
     recurrentSize: 512
-    latentlength: 32
+    latentlength: 32        # High resolution for complex levels
     latentclasses: 16
     encodedObjSize: 1024
 
     useContinuationPred: False
     actorLR: 0.0001
-    criticLR: 0.00005
+    criticLR: 0.0001        # Balanced with Actor
     worldmodelLR: 0.0002
     gradientNormType: 2
     gradientClip: 10
 
     discount: 0.996
     lambda_: 0.95
-    freeNats: 0.5
-    betaPrior: 1.5
-    betaPosterior: 1.5
-    entropyScale: 0.05
+    freeNats: 0.01          # <--- FIX: Forces gradients even for small errors
+    betaPrior: 1.0          # Balanced pressure
+    betaPosterior: 1.0
+    entropyScale: 0.005     # <--- TWEAK: Less jitter, more "committed" jumps
 
     buffer:
         capacity: 50000
@@ -55,24 +54,24 @@ dreamer:
         activation: ELU
 
     recurrentModel:
-        hiddenSize: 200
+        hiddenSize: 400      # <--- BUFF: Need more power to process 32x16 latents
         activation: ELU
 
     priorModel:
-        hiddenSize: 200
-        hiddenLayers: 3
+        hiddenSize: 400
+        hiddenLayers: 2
         activation: ELU
         uniformMix: 0.01
 
     posterior:
-        hiddenSize: 200
-        hiddenLayers: 3
+        hiddenSize: 400
+        hiddenLayers: 2
         activation: ELU
         uniformMix: 0.01
 
     rewardModel:
         hiddenSize: 400
-        hiddenLayers: 3
+        hiddenLayers: 2
         activation: ELU
 
     continuationModel:
@@ -82,8 +81,8 @@ dreamer:
 
     actorModel:
         hiddenSize: 400
-        hiddenLayers: 3
-        tau: 1.0
+        hiddenLayers: 2
+        tau: 0.5
         activation: ELU
 
     criticModel:
