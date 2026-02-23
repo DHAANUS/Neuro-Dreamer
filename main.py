@@ -7,11 +7,11 @@ import argparse
 import wandb
 
 from nes_py.wrappers import JoypadSpace
-from gym_super_mario_bros.actions import RIGHT_ONLY
+from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 
 from Utils.Utils import seeding, loadConfig, ensureParentFile, saveLoss, plotMetrics
 from EnvProperties.f_env import envWrapper, envPreproccessing, getEnvinfo, foveatedObservation
-# from EnvProperties.env import 
+# from EnvProperties.env import
 from DreamerCore.CoreInit import CentralInitialization
 from DreamerCore.WorldModel import WorldModel
 from DreamerCore.BehaviourModel import BehaviorModel
@@ -40,12 +40,12 @@ def main(configFile):
 
   ensureParentFile(metricsFilename, plotFilename, checkpointFilenameBase, videoFilenameBase)
   base_env = gym_super_mario_bros.make(config.envname)
-  base_env = JoypadSpace(base_env, RIGHT_ONLY)
+  base_env = JoypadSpace(base_env, SIMPLE_MOVEMENT)
   if config.use_foveation:
     base_env = foveatedObservation(base_env)
   env = envWrapper(envPreproccessing(
       gym.wrappers.ResizeObservation(base_env, (64, 64))))
-  
+
   base_enveval = gym_super_mario_bros.make(config.envname)
   base_enveval = JoypadSpace(base_enveval, RIGHT_ONLY)
   if config.use_foveation:
