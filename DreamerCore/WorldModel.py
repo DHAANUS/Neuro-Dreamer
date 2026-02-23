@@ -73,13 +73,32 @@ class WorldModel(nn.Module):
     posteriordist = Independent(OneHotCategoricalStraightThrough(logits=posteriorLogits), 1)
     posteriordiststopgradient = Independent(OneHotCategoricalStraightThrough(logits=posteriorLogits.detach()), 1)
 
-    priorLoss = kl_divergence(posteriordiststopgradient, priordist)
-    posteriorLoss = kl_divergence(posteriordist, priordiststopgradient)
-    freeNats = torch.full_like(priorLoss, self.config.dreamer.freeNats)
+    # priorLoss = kl_divergence(posteriordiststopgradient, priordist)
+    # posteriorLoss = kl_divergence(posteriordist, priordiststopgradient)
+    # freeNats = torch.full_like(priorLoss, self.config.dreamer.freeNats)
 
-    priorLoss = self.config.dreamer.betaPrior * torch.maximum(priorLoss, freeNats)
-    posteriorLoss = self.config.dreamer.betaPosterior * torch.maximum(posteriorLoss, freeNats)
-    klLoss = (priorLoss + posteriorLoss).mean()
+    # priorLoss = self.config.dreamer.betaPrior * torch.maximum(priorLoss, freeNats)
+    # posteriorLoss = self.config.dreamer.betaPosterior * torch.maximum(posteriorLoss, freeNats)
+    # klLoss = (priorLoss + posteriorLoss).mean()
+    # Reshape to separate latents
+    B, T, D = priorLogits.shape
+    num_latents = self.config.dreamer.latentlength
+    num_classes = self.config.dreamer.latentclasses
+
+    prior_reshaped = priorLogits.view(B, T, num_latents, num_classes)
+    post_reshaped = posteriorLogits.view(B, T, num_latents, num_classes)
+
+    # KL over each latent
+    prior_dist = OneHotCategoricalStraightThrough(logits=prior_reshaped)
+    post_dist = OneHotCategoricalStraightThrough(logits=post_reshaped)
+
+    kl_per_latent = kl_divergence(post_dist, prior_dist)  
+
+    # Apply free nats per latent
+    free_nats = torch.full_like(kl_per_latent, self.config.dreamer.freeNats)
+    kl_with_free = torch.maximum(kl_per_latent, free_nats)  
+    # Sum over latents, then mean over batch and time
+    klLoss = kl_with_free.sum(dim=-1).mean() 
 
     worldmodelLoss = reconstructionLoss + rewardLoss + klLoss
 
