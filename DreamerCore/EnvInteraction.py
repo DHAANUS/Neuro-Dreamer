@@ -60,7 +60,7 @@ class EnvironmentInteraction(nn.Module):
             self._max_x = 0
         progress = max(0, x - self._max_x)
         self._max_x = max(self._max_x, x)
-        shaped_reward = progress * 0.1
+        shaped_reward =  reward + (progress * 0.5)
 
         if not evaluation:
           one_hot = np.zeros(self.action_size , dtype=np.float32)
@@ -88,7 +88,7 @@ class EnvironmentInteraction(nn.Module):
             self.core.totalEnvSteps += stepCount
 
           if savevideo and i == 0:
-            finalFilename = f'{fileName}_step{stepCount:.0f}_reward_{currScore:.0f}.mp4'
+            finalFilename = f'{fileName}_step{stepCount}_reward_{currScore:.0f}.mp4'
             with imageio.get_writer(finalFilename, fps=fps) as video:
               for frame in frames:
                 video.append_data(frame)
