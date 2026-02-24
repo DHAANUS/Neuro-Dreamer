@@ -1,15 +1,13 @@
 envname: SuperMarioBros-v0
-run_name: SuperMarioBrosNes
+run_name: SuperMarioBrosNes_v0
 seed: 1
 gradientSteps: 80000
 replayRatio: 1
 saveMetrics: True
 saveCheckpoints: True
 checkpointInterval: 10
-
 checkpointLoad: 50k
 resume: False
-
 use_foveation: False
 episodedbeforestart: 10
 numInteractionEpisode: 1
@@ -22,7 +20,7 @@ dreamer:
     latentlength: 32
     latentclasses: 16
     encodedObjSize: 1024
-    useContinuationPred: False
+    useContinuationPred: True    
     actorLR: 0.0001
     criticLR: 0.00005
     worldmodelLR: 0.0002
@@ -30,10 +28,10 @@ dreamer:
     gradientClip: 10
     discount: 0.996
     lambda_: 0.95
-    freeNats: 1.0
-    betaPrior: 1.5
-    betaPosterior: 1.5
-    entropyScale: 0.05
+    freeNats: 0.1                  
+    betaPrior: 1.0                
+    betaPosterior: 1.0             
+    entropyScale: 0.1              
     buffer:
         capacity: 50000
     encoder:
