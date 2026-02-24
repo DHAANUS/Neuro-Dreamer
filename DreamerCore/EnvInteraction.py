@@ -88,7 +88,7 @@ class EnvironmentInteraction(nn.Module):
             self.core.totalEnvSteps += stepCount
 
           if savevideo and i == 0:
-            finalFilename = f'{fileName} _reward_{currScore:.0f}.mp4'
+            finalFilename = f'{fileName}_step{stepCount:.0f}_reward_{currScore:.0f}.mp4'
             with imageio.get_writer(finalFilename, fps=fps) as video:
               for frame in frames:
                 video.append_data(frame)
