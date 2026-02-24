@@ -12,7 +12,7 @@ resume: False
 
 use_foveation: False
 episodedbeforestart: 10
-numInteractionEpisode: 3
+numInteractionEpisode: 1
 numEvaluationEpisode: 1
 dreamer:
     batchsize: 32
