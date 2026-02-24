@@ -60,7 +60,7 @@ class EnvironmentInteraction(nn.Module):
             self._max_x = 0
         progress = max(0, x - self._max_x)
         self._max_x = max(self._max_x, x)
-        shaped_reward =  reward + (progress * 0.5)
+        shaped_reward =  reward + (progress * 5)
 
         if not evaluation:
           one_hot = np.zeros(self.action_size , dtype=np.float32)
