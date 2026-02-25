@@ -22,7 +22,7 @@ dreamer:
     encodedObjSize: 1024
     useContinuationPred: False
     actorLR: 0.0001
-    criticLR: 0.00003
+    criticLR: 0.00001
     worldmodelLR: 0.0002
     gradientNormType: 2
     gradientClip: 10
@@ -68,7 +68,7 @@ dreamer:
     actorModel:
         hiddenSize: 400
         hiddenLayers: 3
-        tau: 0.5
+        tau: 0.7
         activation: ELU
     criticModel:
         hiddenSize: 400
