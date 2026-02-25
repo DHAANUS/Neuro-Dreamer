@@ -31,7 +31,7 @@ dreamer:
     freeNats: 0.5
     betaPrior: 1.5
     betaPosterior: 1.5
-    entropyScale: 0.007
+    entropyScale: 0.0007
     buffer:
         capacity: 50000
     encoder:
@@ -68,7 +68,7 @@ dreamer:
     actorModel:
         hiddenSize: 400
         hiddenLayers: 3
-        tau: 0.5
+        tau: 1
         activation: ELU
     criticModel:
         hiddenSize: 400
