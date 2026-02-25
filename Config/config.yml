@@ -15,23 +15,23 @@ numEvaluationEpisode: 1
 dreamer:
     batchsize: 32
     batchlength: 64
-    imaginehorizon: 30
+    imaginehorizon: 15
     recurrentSize: 512
     latentlength: 32
     latentclasses: 16
     encodedObjSize: 1024
-    useContinuationPred: True    
+    useContinuationPred: False
     actorLR: 0.0001
-    criticLR: 0.00005
+    criticLR: 0.00003
     worldmodelLR: 0.0002
     gradientNormType: 2
     gradientClip: 10
     discount: 0.996
     lambda_: 0.95
-    freeNats: 0.1                  
-    betaPrior: 1.0                
-    betaPosterior: 1.0             
-    entropyScale: 0.005              
+    freeNats: 0.5
+    betaPrior: 1.5
+    betaPosterior: 1.5
+    entropyScale: 0.05
     buffer:
         capacity: 50000
     encoder:
