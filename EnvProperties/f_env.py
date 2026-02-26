@@ -27,9 +27,11 @@ class foveatedObservation(gym.ObservationWrapper):
       y_pos = info.get("y_pos", None)
 
       if x_pos is not None:
-        self.last_x = int(x_pos % obs.shape[1])
+        # self.last_x = int(x_pos % obs.shape[1])
+        self.last_x = obs.shape[1] // 2 
       if y_pos is not None:
-        self.last_y = int(obs.shape[0] - (y_pos % obs.shape[0]))
+        # self.last_y = int(obs.shape[0] - (y_pos % obs.shape[0]))
+        self.last_y = int(obs.shape[0] - (y_pos / 255.0 * obs.shape[0]))
 
     obs = self.apply_foveation(obs)
     return obs, reward, done, info
@@ -65,7 +67,7 @@ class foveatedObservation(gym.ObservationWrapper):
     result[outer_mask] = outer_blur_frame[outer_mask]
 
     return result.astype(np.uint8)
-    
+
 class SkipFrame(gym.Wrapper):
     def __init__(self, env, skip=4):
         super().__init__(env)
