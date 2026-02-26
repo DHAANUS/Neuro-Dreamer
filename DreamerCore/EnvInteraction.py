@@ -69,7 +69,7 @@ class EnvironmentInteraction(nn.Module):
 
         if savevideo and i == 0:
           try:
-            frame = env.unwrapped.render(mode="rgb_array")
+            frame = env.render(mode="rgb_array")
             targetheight = (frame.shape[0] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
             targetwidth = (frame.shape[1] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
             frames.append(np.pad(frame, ((0, targetheight - frame.shape[0]), (0 , targetwidth - frame.shape[1]),(0,0)), mode='edge'))
