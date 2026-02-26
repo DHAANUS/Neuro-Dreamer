@@ -7,8 +7,8 @@ saveMetrics: True
 saveCheckpoints: True
 checkpointInterval: 10
 checkpointLoad: 50k
-resume: True
-use_foveation: False
+resume: False
+use_foveation: True
 episodedbeforestart: 10
 numInteractionEpisode: 1
 numEvaluationEpisode: 1
