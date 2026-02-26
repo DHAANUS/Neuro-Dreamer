@@ -15,14 +15,14 @@ numEvaluationEpisode: 1
 dreamer:
     batchsize: 32
     batchlength: 64
-    imaginehorizon: 15
+    imaginehorizon: 30
     recurrentSize: 512
     latentlength: 32
     latentclasses: 16
     encodedObjSize: 1024
     useContinuationPred: False
-    actorLR: 0.0001
-    criticLR: 0.00001
+    actorLR: 0.00007
+    criticLR: 0.0001
     worldmodelLR: 0.0002
     gradientNormType: 2
     gradientClip: 10
@@ -31,7 +31,7 @@ dreamer:
     freeNats: 0.5
     betaPrior: 1.5
     betaPosterior: 1.5
-    entropyScale: 0.05
+    entropyScale: 0.0005
     buffer:
         capacity: 50000
     encoder:
@@ -68,7 +68,7 @@ dreamer:
     actorModel:
         hiddenSize: 400
         hiddenLayers: 3
-        tau: 0.5
+        tau: 1
         activation: ELU
     criticModel:
         hiddenSize: 400
