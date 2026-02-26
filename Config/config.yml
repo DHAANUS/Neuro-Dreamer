@@ -21,7 +21,7 @@ dreamer:
     latentclasses: 16
     encodedObjSize: 1024
     useContinuationPred: False
-    actorLR: 0.00005
+    actorLR: 0.00008
     criticLR: 0.0001
     worldmodelLR: 0.0002
     gradientNormType: 2
@@ -33,7 +33,7 @@ dreamer:
     betaPosterior: 1.5
     entropyScale: 0.0004
     buffer:
-        capacity: 50000
+        capacity: 100000
     encoder:
         depth: 16
         stride: 2
