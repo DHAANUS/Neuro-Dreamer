@@ -33,7 +33,7 @@ dreamer:
     betaPosterior: 1.5
     entropyScale: 0.0004
     buffer:
-        capacity: 100000
+        capacity: 500000
     encoder:
         depth: 16
         stride: 2
