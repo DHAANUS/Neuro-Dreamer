@@ -9,31 +9,31 @@ checkpointInterval: 10
 checkpointLoad: 50k
 resume: False
 use_foveation: False
-episodedbeforestart: 100
+episodedbeforestart: 10
 numInteractionEpisode: 1
 numEvaluationEpisode: 1
 dreamer:
     batchsize: 32
     batchlength: 64
-    imaginehorizon: 30
-    recurrentSize: 1024
+    imaginehorizon: 15
+    recurrentSize: 512
     latentlength: 32
     latentclasses: 16
     encodedObjSize: 1024
     useContinuationPred: False
-    actorLR: 0.00008
-    criticLR: 0.0001
+    actorLR: 0.0001
+    criticLR: 0.00001
     worldmodelLR: 0.0002
     gradientNormType: 2
     gradientClip: 10
-    discount: 0.99
+    discount: 0.996
     lambda_: 0.95
     freeNats: 0.5
     betaPrior: 1.5
     betaPosterior: 1.5
-    entropyScale: 0.0004
+    entropyScale: 0.05
     buffer:
-        capacity: 500000
+        capacity: 50000
     encoder:
         depth: 16
         stride: 2
@@ -68,7 +68,7 @@ dreamer:
     actorModel:
         hiddenSize: 400
         hiddenLayers: 3
-        tau: 1
+        tau: 0.5
         activation: ELU
     criticModel:
         hiddenSize: 400
