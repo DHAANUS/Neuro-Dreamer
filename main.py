@@ -42,20 +42,22 @@ def main(configFile):
   base_env = gym_super_mario_bros.make(config.envname)
   base_env = JoypadSpace(base_env, RIGHT_ONLY)
   base_env = SkipFrame(base_env, skip=4)
-  if config.use_foveation:
-    base_env = foveatedObservation(base_env)
+  
   env = envWrapper(envPreproccessing(
       gym.wrappers.ResizeObservation(base_env, (64, 64))))
-  
+  if config.use_foveation:
+    base_env = foveatedObservation(base_env)
+
 
 
   base_enveval = gym_super_mario_bros.make(config.envname)
   base_enveval = JoypadSpace(base_enveval, RIGHT_ONLY)
   base_enveval = SkipFrame(base_enveval, skip=4)
-  if config.use_foveation:
-    base_enveval = foveatedObservation(base_enveval)
+
   enveval = envWrapper(envPreproccessing(
       gym.wrappers.ResizeObservation(base_enveval, (64, 64))))
+  if config.use_foveation:
+    base_enveval = foveatedObservation(base_enveval)
 
 
 
