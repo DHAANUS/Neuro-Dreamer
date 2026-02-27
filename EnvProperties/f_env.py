@@ -39,33 +39,75 @@ class foveatedObservation(gym.ObservationWrapper):
   def observation(self, obs):
     return self.apply_foveation(obs)
 
-  def apply_foveation(self, img):
-      h, w = img.shape[:2]
-      scale = w / 64.0
-      inner_r = self.inner_radius * scale
-      middle_r = self.middle_radius * scale
+  # def apply_foveation(self, img):
+  #     h, w = img.shape[:2]
+  #     scale = w / 64.0
+  #     inner_r = self.inner_radius * scale
+  #     middle_r = self.middle_radius * scale
       
-      if self.last_x is None:
-          center_x = w // 2
-      else:
-          center_x = w // 2 
+  #     if self.last_x is None:
+  #         center_x = w // 2
+  #     else:
+  #         center_x = w // 2 
+  #     if self.last_y is None:
+  #         center_y = h // 2
+  #     else:
+  #         center_y = int(h - (self.last_y / 255.0 * h))
+      
+  #     y, x = np.ogrid[:h, :w]
+  #     distance = np.sqrt((x - center_x) ** 2 + (y - center_y) ** 2)
+  #     middle_blur_frame = gaussian_filter(img, sigma=(self.middle_blur * scale, self.middle_blur * scale, 0))
+  #     outer_blur_frame = gaussian_filter(img, sigma=(self.outer_blur * scale, self.outer_blur * scale, 0))
+  #     inner_mask = distance <= inner_r
+  #     middle_mask = (distance > inner_r) & (distance <= middle_r)
+  #     outer_mask = distance > middle_r
+  #     result = np.zeros_like(img)
+  #     result[inner_mask] = img[inner_mask]
+  #     result[middle_mask] = middle_blur_frame[middle_mask]
+  #     result[outer_mask] = outer_blur_frame[outer_mask]
+  #     return result.astype(np.uint8)
+  def apply_foveation(self, img):
+      if img.shape[0] == 3: 
+          c, h, w = img.shape
+          ch_dim = 0
+          spatial_dims = (1, 2)
+          s_mid = (0, self.middle_blur, self.middle_blur)
+          s_out = (0, self.outer_blur, self.outer_blur)
+      else:  
+          h, w, c = img.shape
+          ch_dim = 2
+          spatial_dims = (0, 1)
+          s_mid = (self.middle_blur, self.middle_blur, 0)
+          s_out = (self.outer_blur, self.outer_blur, 0)
+
+      center_x = w // 2 
       if self.last_y is None:
           center_y = h // 2
       else:
-          center_y = int(h - (self.last_y / 255.0 * h))
-      
+          center_y = int(h - (self.last_y / 240.0 * h))
+          center_y = np.clip(center_y, 0, h - 1)
       y, x = np.ogrid[:h, :w]
-      distance = np.sqrt((x - center_x) ** 2 + (y - center_y) ** 2)
-      middle_blur_frame = gaussian_filter(img, sigma=(self.middle_blur * scale, self.middle_blur * scale, 0))
-      outer_blur_frame = gaussian_filter(img, sigma=(self.outer_blur * scale, self.outer_blur * scale, 0))
-      inner_mask = distance <= inner_r
-      middle_mask = (distance > inner_r) & (distance <= middle_r)
-      outer_mask = distance > middle_r
-      result = np.zeros_like(img)
-      result[inner_mask] = img[inner_mask]
-      result[middle_mask] = middle_blur_frame[middle_mask]
-      result[outer_mask] = outer_blur_frame[outer_mask]
-      return result.astype(np.uint8)
+      dist = np.sqrt((x - center_x)**2 + (y - center_y)**2)
+
+      mid_blur = gaussian_filter(img, sigma=s_mid)
+      out_blur = gaussian_filter(img, sigma=s_out)
+      
+      inner_m = dist <= self.inner_radius
+      mid_m = (dist > self.inner_radius) & (dist <= self.middle_radius)
+      out_m = dist > self.middle_radius
+      
+      res = np.zeros_like(img)
+      
+      if ch_dim == 0:
+          res[:, inner_m] = img[:, inner_m]
+          res[:, mid_m] = mid_blur[:, mid_m]
+          res[:, out_m] = out_blur[:, out_m]
+      else:
+          res[inner_m] = img[inner_m]
+          res[mid_m] = mid_blur[mid_m]
+          res[out_m] = out_blur[out_m]
+          
+      return res.astype(np.uint8)
 
 class SkipFrame(gym.Wrapper):
     def __init__(self, env, skip=4):
