@@ -69,10 +69,9 @@ class EnvironmentInteraction(nn.Module):
 
         if savevideo and i == 0:
           try:
+            frame = env.render(mode="rgb_array")
             if self.config.use_foveation:
-                frame = (observation.transpose(1, 2, 0) * 255).astype(np.uint8)
-            else:
-                frame = env.unwrapped.render(mode="rgb_array")
+                fframe = env.apply_foveation(frame)
             targetheight = (frame.shape[0] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
             targetwidth = (frame.shape[1] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
             frames.append(np.pad(frame, ((0, targetheight - frame.shape[0]), (0 , targetwidth - frame.shape[1]),(0,0)), mode='edge'))
