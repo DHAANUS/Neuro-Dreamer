@@ -71,7 +71,9 @@ class EnvironmentInteraction(nn.Module):
           try:
             frame = env.render(mode="rgb_array")
             if self.config.use_foveation:
-                fframe = env.apply_foveation(frame)
+                frame = env.apply_foveation(frame)
+            # else:
+            #     frame = env.unwrapped.render(mode="rgb_array")
             targetheight = (frame.shape[0] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
             targetwidth = (frame.shape[1] + macroBlockSize - 1)//macroBlockSize*macroBlockSize
             frames.append(np.pad(frame, ((0, targetheight - frame.shape[0]), (0 , targetwidth - frame.shape[1]),(0,0)), mode='edge'))
