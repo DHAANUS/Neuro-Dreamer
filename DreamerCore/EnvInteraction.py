@@ -93,7 +93,11 @@ class EnvironmentInteraction(nn.Module):
 
           if savevideo and i == 0:
             # finalFilename = f'{fileName}_step{stepCount}_reward_{currScore:.0f}.mp4'
+            # finalFilename = f'{fileName}_step{stepCount}_reward_{currScore:.0f}.mp4'
             finalFilename = f'{fileName}_step{stepCount}_reward_{currScore:.0f}.mp4'
+            directory = os.path.dirname(finalFilename)
+            if directory and not os.path.exists(directory):
+               os.makedirs(directory, exist_ok=True)
             os.makedirs(os.path.dirname(finalFilename), exist_ok=True)
             with imageio.get_writer(finalFilename, fps=fps) as video:
               for frame in frames:
@@ -101,4 +105,3 @@ class EnvironmentInteraction(nn.Module):
 
           break
     return sum(scores)/numEpisodes if numEpisodes else None
-
