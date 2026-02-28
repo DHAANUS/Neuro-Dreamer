@@ -1,6 +1,6 @@
 envname: SuperMarioBros-1-1-v0
 run_name: SuperMarioBrosNes_v0_Stage1
-seed: 1
+seed: 42
 gradientSteps: 80000
 replayRatio: 1
 saveMetrics: True
@@ -31,7 +31,7 @@ dreamer:
     freeNats: 0.5
     betaPrior: 1.5
     betaPosterior: 1.5
-    entropyScale: 0.0005
+    entropyScale: 0.00055
     buffer:
         capacity: 50000
     encoder:
