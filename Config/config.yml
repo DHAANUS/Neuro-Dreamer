@@ -5,7 +5,7 @@ gradientSteps: 80000
 replayRatio: 1
 saveMetrics: True
 saveCheckpoints: True
-checkpointInterval: 10
+checkpointInterval: 100
 checkpointLoad: 50k
 resume: False
 use_foveation: True
