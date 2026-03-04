@@ -1,10 +1,10 @@
 # Neuro-Dreamer
-### Egocentric Foveated Perception for Dreamer in Super Mario Bros
 <p align="center">
   <img src="Demo-Video/Mario-Progression-Run.gif" width="700">
 </p>
-## Overview
 
+### Egocentric Foveated Perception for Dreamer in Super Mario Bros
+## Overview
 Neuro-Dreamer explores how **perceptual bias affects model-based reinforcement learning**.
 
 This project compares two agents:
@@ -196,13 +196,35 @@ The hypothesis is that **egocentric perception may improve representation learni
 
 Possible extensions:
 
-* Dynamic foveation radius
-* Learned attention masks
-* Multi-scale perception
-* Comparison with attention-based encoders
-* Extension to other environments
+* Attention Mechanism
+* Frozen ViT based Encoder
+* Liquid Neural Network for Actor
 
 ---
+## Acknowledgements
+
+This project builds upon ideas and open-source implementations from the reinforcement learning community, particularly work surrounding the **Dreamer family of model-based reinforcement learning algorithms**.
+
+The Dreamer algorithm was originally introduced by **Danijar Hafner et al.**, who proposed learning policies by imagining trajectories inside a learned world model.
+
+Several open-source implementations were studied and referenced during the development of this project:
+
+* **[NaturalDreamer](https://github.com/InexperiencedMe/NaturalDreamer)** – by InexperiencedMe(This repo was my base reference, I thank this repo author a lot for making Dreamer very much simple and understandable than every other implementations)
+* **[dreamerv3-torch](https://github.com/NM512/dreamerv3-torch)** – by NM512
+* **[SimpleDreamer](https://github.com/kc-ml2/SimpleDreamer)** – by kc-ml2
+* **[dreamer-pytorch](https://github.com/yusukeurakami/dreamer-pytorch)** – by yusukeurakami
+* **[DreamerV2](https://github.com/danijar/dreamerv2)** – official implementation by Danijar Hafner
+* **[SheepRL](https://github.com/Eclectic-Sheep/sheeprl)** – by Eclectic-Sheep
+* **[dreamerv3](https://github.com/naivoder/dreamerv3)** – by naivoder
+
+These repositories were helpful for understanding implementation details such as:
+
+* World model training
+* Recurrent State Space Models (RSSM)
+* Actor–Critic learning through latent imagination
+* Training pipelines and experiment organization
+
+I thank the authors and contributors of these projects for making their work publicly available.
 
 ## License
 
