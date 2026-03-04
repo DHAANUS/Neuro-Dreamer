@@ -1,7 +1,7 @@
 # Neuro-Dreamer
 ### Egocentric Foveated Perception for Dreamer in Super Mario Bros
 <p align="center">
-  <img src="assets/Mario-Progression-Run.gif" width="700">
+  <img src="Demo-Video/Mario-Progression-Run.gif" width="700">
 </p>
 ## Overview
 
