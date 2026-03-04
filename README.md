@@ -106,6 +106,21 @@ Action space:
 
 ---
 
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/DHAANUS/Neuro-Dreamer.git
+cd Neuro-Dreamer
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Evaluation Metrics
 
 Agent performance is evaluated using:
