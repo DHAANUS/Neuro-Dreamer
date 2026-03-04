@@ -120,6 +120,11 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+After installing the dependencies, training can be started using:
+```bash
+python main.py
+```
+This will initialize the Dreamer training pipeline and begin interaction with the Super Mario Bros environment.
 
 ## Evaluation Metrics
 
