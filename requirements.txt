@@ -1,0 +1,13 @@
+gymnasium
+gym-super-mario-bros==7.3.0
+nes-py
+torch
+numpy<2.0
+pandas
+wandb
+plotly
+imageio
+attrdict
+opencv-python
+tqdm
+pyyaml
