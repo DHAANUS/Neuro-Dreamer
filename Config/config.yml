@@ -1,5 +1,5 @@
 envname: SuperMarioBros-1-1-v0
-run_name: SuperMarioBrosNes_v0_Stage1
+run_name: SuperMarioBrosNes_v0
 seed: 42
 gradientSteps: 80000
 replayRatio: 1
@@ -8,7 +8,7 @@ saveCheckpoints: True
 checkpointInterval: 100
 checkpointLoad: 50k
 resume: False
-use_foveation: True
+use_foveation: False
 episodedbeforestart: 10
 numInteractionEpisode: 1
 numEvaluationEpisode: 1
@@ -17,6 +17,7 @@ dreamer:
     batchlength: 64
     imaginehorizon: 80
     recurrentSize: 512
+    toggleBGCA: True
     latentlength: 32
     latentclasses: 16
     encodedObjSize: 1024
