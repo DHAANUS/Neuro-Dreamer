@@ -1,3 +1,5 @@
+import torch.nn as nn
+import torch
 
 class BGCA(nn.Module):
   def __init__(self):
