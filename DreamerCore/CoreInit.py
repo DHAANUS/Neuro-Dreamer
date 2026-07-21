@@ -53,7 +53,8 @@ class CentralInitialization(nn.Module):
     self.actor = Actor(self.fullStateSize, action_size, config).to(self.device)
     self.critic = Critic(self.fullStateSize, config).to(self.device)
     self.buffer = ReplayBuffer(config.dreamer.buffer, self.device,self.observation_shape, self.action_size)
-
+    if self.config.dreamer.toggleBGCA:
+      self.bgca = BGCA()
     if self.config.dreamer.useContinuationPred:
       self.continueModel =  ContinueModel(self.fullStateSize, config).to(self.device)
     else:
