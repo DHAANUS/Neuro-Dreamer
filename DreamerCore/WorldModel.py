@@ -21,12 +21,16 @@ class WorldModel(nn.Module):
     self.posterior = core.posterior
     self.reward = core.reward
     self.continueModel = core.continueModel
+    self.bgca = core.bgca
 
     self.worldmodelParameters = core.worldmodelParameters
     self.worldmodelOptimizer = torch.optim.Adam(self.worldmodelParameters, lr=self.config.dreamer.worldmodelLR)
 
   def train_world(self, data):
-    encodedObs = self.encoder(data.observations.view(-1, *self.observation_shape)).view(self.config.dreamer.batchsize, self.config.dreamer.batchlength, -1)
+    # encodedObs = self.encoder(data.observations.view(-1, *self.observation_shape)).view(self.config.dreamer.batchsize, self.config.dreamer.batchlength, -1)
+    encodedObs, spatial_feat = self.encoder(data.observations.view(-1, *self.observation_shape))#.view(self.config.dreamer.batchSize, self.config.batchlength, -1)
+    encodedObs = encodedObs.view(self.config.dreamer.batchSize, self.config.batchlength, -1)
+    spatial_feat = spatial_feat.view(self.config.dreamer.batchSize, self.config.batchlength, *spatial_feat.shape[1:])
     previousRecurrentState = torch.zeros(self.config.dreamer.batchsize, self.recurrentSize, device=self.device)
     previousLatentState = torch.zeros(self.config.dreamer.batchsize, self.latentsize, device=self.device)
 
@@ -34,7 +38,11 @@ class WorldModel(nn.Module):
     for i in range(1, self.config.dreamer.batchlength):
       recurrentState = self.recurrentModel(previousRecurrentState, previousLatentState, data.actions[:,  i-1])
       _, priorLogit = self.prior(recurrentState)
-      posterior, posteriorLogit = self.posterior(torch.cat((recurrentState, encodedObs[:, i]), -1))
+      if self.bgca:
+        belief_guide = self.bgca(recurrentState, spatial_feat[:, i], encodedObs[:, i])
+      else:
+        belief_guide = encodedObs[:, i]
+      posterior, posteriorLogit = self.posterior(torch.cat((recurrentState, belief_guide), -1))
 
       recurrentStates.append(recurrentState)
       priorLogits.append(priorLogit)
@@ -80,7 +88,7 @@ class WorldModel(nn.Module):
     priorLoss = self.config.dreamer.betaPrior * torch.maximum(priorLoss, freeNats)
     posteriorLoss = self.config.dreamer.betaPosterior * torch.maximum(posteriorLoss, freeNats)
     klLoss = (priorLoss + posteriorLoss).mean()
- 
+
 
     worldmodelLoss = reconstructionLoss + rewardLoss + klLoss
 
