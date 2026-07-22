@@ -21,6 +21,7 @@ class EnvironmentInteraction(nn.Module):
       self.recurrentModel = core.recurrentModel
       self.posterior = core.posterior
       self.actor = core.actor
+      self.bgca = core.bgca
 
       self.buffer = core.buffer
       # self.totalEpisodes = core.totalEpisodes
@@ -35,19 +36,23 @@ class EnvironmentInteraction(nn.Module):
       action = torch.zeros(1, self.action_size).to(self.device) #
       if seed is not None:
         try:
-          observation = env.reset(seed = seed + self.totalEpisodes)
+          observation = env.reset(seed = seed + self.core.totalEpisodes)
         except:
           observation = env.reset()
       else:
         observation = env.reset()
       self._max_x = 0
       # observation = env.reset(seed= (seed + self.totalEpisodes if seed else None))
-      encodedObs = self.encoder(torch.from_numpy(observation).float().unsqueeze(0).to(self.device))
+      encodedObs, spatial_feat = self.encoder(torch.from_numpy(observation).float().unsqueeze(0).to(self.device))
 
       currScore, stepCount, done, frames = 0, 0, False, []
       while not done:
         recurrentState = self.recurrentModel(recurrentState, latentState, action)
-        latentState, _ = self.posterior(torch.cat((recurrentState, encodedObs.view(1, -1)), -1))
+        if self.bgca:
+          belief_guide = self.bgca(recurrentState, spatial_feat, encodedObs)
+        else:
+          belief_guide = encodedObs
+        latentState, _ = self.posterior(torch.cat((recurrentState, belief_guide.view(1, -1)), -1))
         fullState = torch.cat((recurrentState, latentState), -1)
         action, _, _, _ = self.actor(fullState,
                             self.config.dreamer.actorModel.tau,
@@ -80,7 +85,7 @@ class EnvironmentInteraction(nn.Module):
           except Exception as e:
             print('Render Skipped', e)
 
-        encodedObs = self.encoder(torch.from_numpy(nextObservation).float().unsqueeze(0).to(self.device))
+        encodedObs, spatial_feat = self.encoder(torch.from_numpy(nextObservation).float().unsqueeze(0).to(self.device))
         observation = nextObservation
         currScore += shaped_reward
         stepCount += 1
