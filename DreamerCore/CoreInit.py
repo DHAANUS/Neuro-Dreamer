@@ -10,6 +10,7 @@ from Heads.RewardModel import RewardModel
 from Heads.Actor import Actor
 from Heads.Critic import Critic
 from Heads.ContinueModel import ContinueModel
+from Heads.BGCA import BGCA
 
 from Utils.ReplayBuffer import ReplayBuffer
 
