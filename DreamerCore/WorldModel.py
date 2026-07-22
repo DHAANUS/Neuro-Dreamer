@@ -29,8 +29,8 @@ class WorldModel(nn.Module):
   def train_world(self, data):
     # encodedObs = self.encoder(data.observations.view(-1, *self.observation_shape)).view(self.config.dreamer.batchsize, self.config.dreamer.batchlength, -1)
     encodedObs, spatial_feat = self.encoder(data.observations.view(-1, *self.observation_shape))#.view(self.config.dreamer.batchSize, self.config.batchlength, -1)
-    encodedObs = encodedObs.view(self.config.dreamer.batchsize, self.config.batchlength, -1)
-    spatial_feat = spatial_feat.view(self.config.dreamer.batchsize, self.config.batchlength, *spatial_feat.shape[1:])
+    encodedObs = encodedObs.view(self.config.dreamer.batchsize, self.config.dreamer.batchlength, -1)
+    spatial_feat = spatial_feat.view(self.config.dreamer.batchsize, self.config.dreamer.batchlength, *spatial_feat.shape[1:])
     previousRecurrentState = torch.zeros(self.config.dreamer.batchsize, self.recurrentSize, device=self.device)
     previousLatentState = torch.zeros(self.config.dreamer.batchsize, self.latentsize, device=self.device)
 
