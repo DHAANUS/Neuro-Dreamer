@@ -21,7 +21,7 @@ class WorldModel(nn.Module):
     self.posterior = core.posterior
     self.reward = core.reward
     self.continueModel = core.continueModel
-    if self.core.dreamer.toggleBGCA:
+    if self.config.dreamer.toggleBGCA:
       self.bgca = core.bgca
 
     self.worldmodelParameters = core.worldmodelParameters
