@@ -21,7 +21,8 @@ class EnvironmentInteraction(nn.Module):
       self.recurrentModel = core.recurrentModel
       self.posterior = core.posterior
       self.actor = core.actor
-      self.bgca = core.bgca
+      if self.config.dreamer.toggleBGCA:
+        self.bgca = core.bgca
 
       self.buffer = core.buffer
       # self.totalEpisodes = core.totalEpisodes
