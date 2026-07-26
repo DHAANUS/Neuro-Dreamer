@@ -25,11 +25,11 @@ def main(configFile):
   config = loadConfig(configFile)
   seeding(config.seed)
 
-  wandb.init(
-      project="neuro-dreamer-mario",
-      name=config.run_name,
-      config=config
-  )
+  # wandb.init(
+  #     project="neuro-dreamer-mario",
+  #     name=config.run_name,
+  #     config=config
+  # )
 
   runName = f'{config.envname}_{config.run_name}'
   checkpointLoad = os.path.join(config.folderName.checkpointFolder, f'{runName}_{config.checkpointLoad}')
@@ -42,7 +42,7 @@ def main(configFile):
   base_env = gym_super_mario_bros.make(config.envname)
   base_env = JoypadSpace(base_env, RIGHT_ONLY)
   base_env = SkipFrame(base_env, skip=4)
-  
+
   env = envWrapper(envPreproccessing(
       gym.wrappers.ResizeObservation(base_env, (64, 64))))
   if config.use_foveation:
@@ -84,12 +84,12 @@ def main(configFile):
       behaviourMetrics = behaviour.train_behaviour(initialStates)
       core.totalGradientSteps += 1
 
-      if core.totalGradientSteps % 100 == 0:
-        wandb.log({
-            "gradientSteps": core.totalGradientSteps,
-            **worldModelMetrics,
-            **behaviourMetrics
-        })
+      # if core.totalGradientSteps % 100 == 0:
+      #   wandb.log({
+      #       "gradientSteps": core.totalGradientSteps,
+      #       **worldModelMetrics,
+      #       **behaviourMetrics
+      #   })
 
       if core.totalGradientSteps % config.checkpointInterval == 0 and config.saveCheckpoints:
         print("Steps:", core.totalGradientSteps,
@@ -109,7 +109,7 @@ def main(configFile):
 
       saveLoss(metricsFilename, metricBase | worldModelMetrics | behaviourMetrics)
       # plotMetrics(f'{metricsFilename}', savePath=f'{plotFilename}', title=f'{config.envname}')
-      wandb.log(combinedMetrics)
+      # wandb.log(combinedMetrics)
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('--config', type=str, default='Config/config.yml')
