@@ -49,10 +49,11 @@ class EnvironmentInteraction(nn.Module):
       currScore, stepCount, done, frames = 0, 0, False, []
       while not done:
         recurrentState = self.recurrentModel(recurrentState, latentState, action)
-        if self.bgca:
-          belief_guide = self.bgca(recurrentState, spatial_feat, encodedObs)
-        else:
-          belief_guide = encodedObs
+        if self.config.dreamer.toggleBGCA:
+          if self.bgca:
+           belief_guide = self.bgca(recurrentState, spatial_feat, encodedObs)
+          else:
+            belief_guide = encodedObs
         latentState, _ = self.posterior(torch.cat((recurrentState, belief_guide.view(1, -1)), -1))
         fullState = torch.cat((recurrentState, latentState), -1)
         action, _, _, _ = self.actor(fullState,
