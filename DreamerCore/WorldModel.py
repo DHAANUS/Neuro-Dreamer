@@ -39,7 +39,7 @@ class WorldModel(nn.Module):
     for i in range(1, self.config.dreamer.batchlength):
       recurrentState = self.recurrentModel(previousRecurrentState, previousLatentState, data.actions[:,  i-1])
       _, priorLogit = self.prior(recurrentState)
-      if self.bgca:
+      if self.config.dreamer.toggleBGCA:
         belief_guide = self.bgca(recurrentState, spatial_feat[:, i], encodedObs[:, i])
       else:
         belief_guide = encodedObs[:, i]
