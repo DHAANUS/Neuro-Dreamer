@@ -17,7 +17,7 @@ dreamer:
     batchlength: 64
     imaginehorizon: 80
     recurrentSize: 512
-    toggleBGCA: True
+    toggleBGCA: False
     latentlength: 32
     latentclasses: 16
     encodedObjSize: 1024
