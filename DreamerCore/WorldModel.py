@@ -21,7 +21,8 @@ class WorldModel(nn.Module):
     self.posterior = core.posterior
     self.reward = core.reward
     self.continueModel = core.continueModel
-    self.bgca = core.bgca
+    if self.core.dreamer.toggleBGCA:
+      self.bgca = core.bgca
 
     self.worldmodelParameters = core.worldmodelParameters
     self.worldmodelOptimizer = torch.optim.Adam(self.worldmodelParameters, lr=self.config.dreamer.worldmodelLR)
